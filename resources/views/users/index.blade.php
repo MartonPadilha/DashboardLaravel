@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'user-management', 'titlePage' => __('User Management')])
+@extends('layouts.app', ['activePage' => 'user-management', 'titlePage' => __('Gerenciamento de Clientes')])
 
 @section('content')
   <div class="content">
@@ -7,8 +7,8 @@
         <div class="col-md-12">
             <div class="card">
               <div class="card-header card-header-primary">
-                <h4 class="card-title ">{{ __('Users') }}</h4>
-                <p class="card-category"> {{ __('Here you can manage users') }}</p>
+                <h4 class="card-title ">{{ __('Clientes') }}</h4>
+                <p class="card-category"> {{ __('Aqui você pode gerenciar seus clientes') }}</p>
               </div>
               <div class="card-body">
                 @if (session('status'))
@@ -25,23 +25,29 @@
                 @endif
                 <div class="row">
                   <div class="col-12 text-right">
-                    <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
+                    <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">{{ __('Adicionar Cliente') }}</a>
                   </div>
                 </div>
                 <div class="table-responsive">
                   <table class="table">
                     <thead class=" text-primary">
                       <th>
-                          {{ __('Name') }}
+                          {{ __('Nome') }}
                       </th>
                       <th>
                         {{ __('Email') }}
                       </th>
                       <th>
-                        {{ __('Creation date') }}
+                        {{ __('Data de Criação') }}
+                      </th>
+                      <th>
+                        {{ __('Endereço') }}
+                      </th>
+                      <th>
+                        {{ __('Total de Pedidos') }}
                       </th>
                       <th class="text-right">
-                        {{ __('Actions') }}
+                        {{ __('Ações') }}
                       </th>
                     </thead>
                     <tbody>
@@ -54,7 +60,13 @@
                             {{ $user->email }}
                           </td>
                           <td>
-                            {{ $user->created_at->format('Y-m-d') }}
+                            {{ $user->created_at->format('d-m-Y') }}
+                          </td>
+                          <td>
+                            Teste
+                          </td>
+                          <td>
+                            0
                           </td>
                           <td class="td-actions text-right">
                             @if ($user->id != auth()->id())
@@ -66,7 +78,7 @@
                                     <i class="material-icons">edit</i>
                                     <div class="ripple-container"></div>
                                   </a>
-                                  <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
+                                  <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar este cliente?") }}') ? this.parentElement.submit() : ''">
                                       <i class="material-icons">close</i>
                                       <div class="ripple-container"></div>
                                   </button>
