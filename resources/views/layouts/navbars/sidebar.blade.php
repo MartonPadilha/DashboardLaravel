@@ -38,8 +38,8 @@
                 <span class="sidebar-normal"> {{ __('Clientes') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'user-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('user.index') }}">
+            <li class="nav-item{{ $activePage == 'demand-management' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('demand.index') }}">
               <i class="material-icons">room_service</i>
                 <span class="sidebar-normal"> {{ __('Pedidos') }} </span>
               </a>

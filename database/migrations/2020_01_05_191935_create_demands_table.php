@@ -19,8 +19,11 @@ class CreateDemandsTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->string('time_take');
+            $table->date('date');
+            $table->string('product');
             $table->integer('quantity');
             $table->float('value');
+            $table->string('status');
             $table->timestamps();
 
             $table->foreign('id_client')->references('id')->on('clients')->onDelete('CASCADE');

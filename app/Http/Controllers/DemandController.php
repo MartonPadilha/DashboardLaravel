@@ -28,7 +28,8 @@ class DemandController extends Controller
      */
     public function create()
     {
-        //
+        $demands = Demand::all();
+        return view('demands\create');
     }
 
     /**
@@ -39,7 +40,18 @@ class DemandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $demand = new Demand();
+        $demand->name = $request->name;
+        $demand->slug = $demand->name;
+        $demand->time_take = $request->time;
+        $demand->date = $request->date;
+        $demand->product = $request->product;
+        $demand->quantity = $request->quantity;
+        $demand->value = $request->value;
+        $demand->status = "Aguardando";
+        $demand->save();
+
+        return redirect()->route('demand.index')->withStatus("Pedido criado com sucesso!");
     }
 
     /**
@@ -61,7 +73,9 @@ class DemandController extends Controller
      */
     public function edit(Demand $demand)
     {
-        //
+        return view('demands\edit', [
+            'demand' => $demand
+        ]);
     }
 
     /**
@@ -73,7 +87,17 @@ class DemandController extends Controller
      */
     public function update(Request $request, Demand $demand)
     {
-        //
+        $demand->name = $request->name;
+        $demand->slug = $demand->name;
+        $demand->time_take = $request->time;
+        $demand->date = $request->date;
+        $demand->product = $request->product;
+        $demand->quantity = $request->quantity;
+        $demand->value = $request->value;
+        $demand->status = "Aguardando";
+        $demand->save();
+
+        return redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
     }
 
     /**
@@ -84,6 +108,7 @@ class DemandController extends Controller
      */
     public function destroy(Demand $demand)
     {
-        //
+        $demand->delete();
+        return redirect()->route('demand.index')->withStatus("Pedido excluído com sucesso!");
     }
 }

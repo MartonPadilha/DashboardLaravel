@@ -1,28 +1,122 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-    </head>
-    <body>
-        <table>
-            <tr>
-                <th>Nome</th>
-                <th>Horário</th>
-                <th>Quantidade</th>
-                <th>Valor</th>
-            </tr>
+@extends('layouts.app', ['activePage' => 'demand-management', 'titlePage' => __('Gerenciamento de Pedidos')])
 
-            @foreach ($demands as $demand)
-                <tr>
-                    <td>{{$demand->name}}</td>
-                    <td>{{$demand->timeTake}}</td>
-                    <td>{{$demand->quantity}}</td>
-                    <td>{{$demand->quantity*30}}</td>
-                </tr>
-            @endforeach
-        </table>
-    </body>
-    </html>
+@section('content')
+  <div class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary">
+                <h4 class="card-title ">{{ __('Pedidos') }}</h4>
+                <p class="card-category"> {{ __('Aqui você pode gerenciar seus pedidos') }}</p>
+              </div>
+              <div class="card-body">
+                @if (session('status'))
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <i class="material-icons">close</i>
+                        </button>
+                        <span>{{ session('status') }}</span>
+                      </div>
+                    </div>
+                  </div>
+                @endif
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <a href="{{ route('demand.create') }}" class="btn btn-sm btn-primary">{{ __('Adicionar Pedido') }}</a>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead class=" text-primary">
+                      <th>
+                          {{ __('Nome') }}
+                      </th>
+                      <th>
+                        {{ __('Data') }}
+                      </th>
+                      <th>
+                        {{ __('Pedido ás') }}
+                      </th>
+                      <th>
+                        {{ __('Buscar ás') }}
+                      </th>
+                      <th>
+                        {{ __('Produto') }}
+                      </th>
+                      <th>
+                        {{ __('Quantidade') }}
+                      </th>
+                      <th>
+                        {{ __('Valor') }}
+                      </th>
+                      <th>
+                        {{ __('Status') }}
+                      </th>
+                      <th class="text-right">
+                        {{ __('Ações') }}
+                      </th>
+                    </thead>
+                    <tbody>
+                      @foreach($demands as $demand)
+                        <tr>
+                          <td>
+                            {{ $demand->name }}
+                          </td>
+                          <td>
+                            {{ date('d-m-Y', strtotime($demand->date))}}
+                          </td>
+                          <td>
+                            {{ date('H:i', strtotime($demand->created_at))}}
+                          </td>
+                          <td>
+                            {{ $demand->time_take }}
+                          </td>
+                          <td>
+                            {{ $demand->product }}
+                          </td>
+                          <td>
+                            {{ $demand->quantity }}
+                          </td>
+                          <td>
+                            {{ $demand->value }}
+                          </td>
+                          <td>
+                            {{ $demand->status }}
+                          </td>
+                          <td class="td-actions text-right">
+                            @if ($demand->id != auth()->id())
+                              <form action="{{ route('demand.destroy', ['demand' => $demand->id]) }}" method="post">
+                                  @csrf
+                                  @method('delete')
+                              
+                                  <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('demand.edit', ['demand' => $demand->id]) }}" data-original-title="" title="">
+                                    <i class="material-icons">edit</i>
+                                    <div class="ripple-container"></div>
+                                  </a>
+                                  <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar este pedido?") }}') ? this.parentElement.submit() : ''">
+                                      <i class="material-icons">close</i>
+                                      <div class="ripple-container"></div>
+                                  </button>
+                              </form>
+                            @else
+                              <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('demand.edit', ['demand' => $demand->id]) }}" data-original-title="" title="">
+                                <i class="material-icons">edit</i>
+                                <div class="ripple-container"></div>
+                              </a>
+                            @endif
+                          </td>
+                        </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+@endsection

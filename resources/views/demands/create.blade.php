@@ -1,67 +1,106 @@
-@extends('layouts.app', ['activePage' => 'request-management', 'titlePage' => _('Gerenciador de Pedidos')])
+@extends('layouts.app', ['activePage' => 'demand-management', 'titlePage' => _('Gerenciador de Pedidos')])
 
 @section('content')
 <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('user.store') }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ route('demand.store') }}" autocomplete="off" class="form-horizontal">
             @csrf
             @method('post')
 
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Adionar Usuário') }}</h4>
+                <h4 class="card-title">{{ __('Adicionar Pedido') }}</h4>
                 <p class="card-category"></p>
               </div>
               <div class="card-body ">
                 <div class="row">
                   <div class="col-md-12 text-right">
-                      <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">{{ __('Voltar a lista') }}</a>
+                      <a href="{{ route('demand.index') }}" class="btn btn-sm btn-primary">{{ __('Voltar a lista') }}</a>
                   </div>
                 </div>
                 <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Nome') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{ old('name') }}" required="true" aria-required="true"/>
+                      <input class="form-control{{ $errors->has('name') ? ' Nome Inválido!' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{ old('name') }}" required="true" aria-required="true"/>
                       @if ($errors->has('name'))
                         <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
                       @endif
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label">{{ __('Email') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('email') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" id="input-email" type="email" placeholder="{{ __('Email') }}" value="{{ old('email') }}" required />
-                      @if ($errors->has('email'))
-                        <span id="email-error" class="error text-danger" for="input-email">{{ $errors->first('email') }}</span>
-                      @endif
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                        <input class="form-control{{ $errors->has('date') ? ' Data inválida!' : '' }}" name="date" id="input-date" type="date" placeholder="{{ __('Data') }}" value="{{ old('date') }}" required="true" aria-required="true"/>
+                        @if ($errors->has('date'))
+                          <span id="date-error" class="error text-danger" for="input-name">{{ $errors->first('date') }}</span>
+                        @endif
+                      </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                      <div class="form-group{{ $errors->has('time') ? ' has-danger' : '' }}">
+                        <select name="time" id="input-time" class="form-control{{ $errors->has('time') ? ' Horário Inválido!' : '' }}" required>
+                          <option value="10:30">10:30</option>
+                          <option value="11:20">11:20</option>
+                          <option value="12:10">12:10</option>
+                        </select>
+                        {{-- <input class="form-control{{ $errors->has('time') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{ old('name') }}" required="true" aria-required="true"/> --}}
+                        @if ($errors->has('name'))
+                          <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
+                        @endif
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label" for="input-password">{{ __(' Senha') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('password') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" input type="password" name="password" id="input-password" placeholder="{{ __('Senha') }}" value="" required />
-                      @if ($errors->has('password'))
-                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('password') }}</span>
-                      @endif
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <div class="form-group{{ $errors->has('product') ? ' has-danger' : '' }}">
+                        <select name="product" id="input-product" class="form-control{{ $errors->has('product') ? ' Produto Inválido' : '' }}" required onchange="calc()">
+                          <option value="Frango Inteiro">Frango Inteiro</option>
+                          <option value="1/2 Frango">1/2 Frango</option>
+                        </select>
+                        @if ($errors->has('product'))
+                          <span id="product-error" class="error text-danger" for="input-product">{{ $errors->first('product') }}</span>
+                        @endif
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
+                        <input class="form-control{{ $errors->has('quantity') ? ' Quantidade inválida!' : '' }}" name="quantity" id="input-quantity" type="number" placeholder="{{ __('Quantidade') }}" value="{{ old('date') }}" required="true" aria-required="true" onchange="calc()"/>
+                        @if ($errors->has('quantity'))
+                          <span id="quantity-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>
+                        @endif
+                      </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                      <div class="form-group{{ $errors->has('value') ? ' has-danger' : '' }}">
+                        <input class="form-control{{ $errors->has('value') ? ' Valor inválido!' : '' }}" name="value" id="input-value" type="number" placeholder="{{ __('Valor') }}" value="{{ old('date') }}" required="true" aria-required="true"/>
+                        @if ($errors->has('value'))
+                          <span id="value-error" class="error text-danger" for="input-value">{{ $errors->first('value') }}</span>
+                        @endif
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <label class="col-sm-2 col-form-label" for="input-password-confirmation">{{ __('Confirmar Senha') }}</label>
-                  <div class="col-sm-7">
-                    <div class="form-group">
-                      <input class="form-control" name="password_confirmation" id="input-password-confirmation" type="password" placeholder="{{ __('Confirmar Senha') }}" value="" required />
-                    </div>
-                  </div>
-                </div>
-              </div>
+
+                  <script>
+                    function calc(){
+                      let select = document.querySelector('#input-product')
+                      let option = select.options[select.selectedIndex];
+                      let quantity = Number(document.querySelector('#input-quantity').value)
+                      if (option.value == "Frango Inteiro") {
+                        document.querySelector('#input-value').value = quantity * 30
+                      } else {
+                        document.querySelector('#input-value').value = quantity * 20
+                      }
+                    }
+                  </script>
+
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Adicionar') }}</button>
               </div>
