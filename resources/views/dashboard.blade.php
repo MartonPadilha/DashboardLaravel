@@ -8,11 +8,28 @@
           <div class="card card-stats">
             <div class="card-header card-header-warning card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">content_copy</i>
+                <i class="material-icons">dns</i>
               </div>
-              <p class="card-category">Used Space</p>
-              <h3 class="card-title">49/50
-                <small>GB</small>
+              {{$demands_delivereds= 0}}
+              {{$demands_total = 0}}
+              {{$value_total = 0}}
+              {{$value_delivered = 0}}
+              @foreach ($demands as $demand)
+
+                {{$demands_total++}}
+                @if ($demand->status == "Entregue")
+                  {{$demands_delivereds++}}    
+                @endif
+
+                {{$value_total += $demand->value}}
+                @if ($demand->status == "Entregue")
+                    {{$value_delivered += $demand->value}}
+                @endif
+
+                
+              @endforeach
+              <p class="card-category">Pedidos do Fim de Semana</p>
+              <h3 class="card-title">{{$demands_delivereds}}/{{$demands_total}}
               </h3>
             </div>
             <div class="card-footer">
@@ -23,14 +40,17 @@
             </div>
           </div>
         </div>
+        
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-success card-header-icon">
               <div class="card-icon">
-                <i class="material-icons">store</i>
+                <i class="material-icons">attach_money</i>
               </div>
-              <p class="card-category">Revenue</p>
-              <h3 class="card-title">$34,245</h3>
+              <p class="card-category">Recebido</p>
+              <h4 class="card-title delivered">{{$value_delivered}}</h4><br>
+              <p class="card-category">Á Receber</p>
+              <h3 class="card-title">R${{$value_total}},00</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -39,14 +59,15 @@
             </div>
           </div>
         </div>
+
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
-            <div class="card-header card-header-danger card-header-icon">
+            <div class="card-header card-header-warning card-header-icon">
               <div class="card-icon">
                 <i class="material-icons">info_outline</i>
               </div>
-              <p class="card-category">Fixed Issues</p>
-              <h3 class="card-title">75</h3>
+              <p class="card-category">Lucro Líquido Total</p>
+              <h3 class="card-title total_profit"></h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -55,6 +76,7 @@
             </div>
           </div>
         </div>
+        
         <div class="col-lg-3 col-md-6 col-sm-6">
           <div class="card card-stats">
             <div class="card-header card-header-info card-header-icon">
@@ -416,6 +438,7 @@
       </div>
     </div>
   </div>
+<script src="{{url(mix('material/js/authorial/functions.js'))}}"></script>
 @endsection
 
 @push('js')

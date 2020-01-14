@@ -87,26 +87,30 @@
                             {{ $demand->status }}
                           </td>
                           <td class="td-actions text-right">
-                            @if ($demand->id != auth()->id())
-                              <form action="{{ route('demand.destroy', ['demand' => $demand->id]) }}" method="post">
-                                  @csrf
-                                  @method('delete')
-                              
-                                  <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('demand.edit', ['demand' => $demand->id]) }}" data-original-title="" title="">
-                                    <i class="material-icons">edit</i>
-                                    <div class="ripple-container"></div>
-                                  </a>
+                            @if ($demand->status == 'Aguardando')
+                            <form action="{{ route('demand.update', ['demand' => $demand->id]) }}" method="post">
+                                @csrf
+                                @method('put')
+                              <button type="button" class="btn btn-success btn-link" data-original-title="" title="" onclick="confirm('{{ __("Este pedido foi entregue?") }}') ? this.parentElement.submit() : ''">
+                                <i class="material-icons">done</i>
+                                <div class="ripple-container"></div>
+                              </button>
+                           </form>                               
+                            @endif
+
+                            <a rel="tooltip" class="btn btn-primary btn-link" href="{{ route('demand.edit', ['demand' => $demand->id]) }}" data-original-title="" title="">
+                              <i class="material-icons">edit</i>
+                              <div class="ripple-container"></div>
+                            </a>
+
+                            <form action="{{ route('demand.destroy', ['demand' => $demand->id]) }}" method="post">
+                                @csrf
+                                @method('delete')
                                   <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar este pedido?") }}') ? this.parentElement.submit() : ''">
                                       <i class="material-icons">close</i>
                                       <div class="ripple-container"></div>
                                   </button>
                               </form>
-                            @else
-                              <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('demand.edit', ['demand' => $demand->id]) }}" data-original-title="" title="">
-                                <i class="material-icons">edit</i>
-                                <div class="ripple-container"></div>
-                              </a>
-                            @endif
                           </td>
                         </tr>
                       @endforeach

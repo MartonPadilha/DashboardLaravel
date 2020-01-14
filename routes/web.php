@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
+// Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('table-list', function () {
@@ -57,3 +57,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::resource('pedidos', 'DemandController')->names('demand')->parameters(['pedidos' => 'demand']);
 
+Route::get('/home', 'DemandController@demands')->name('home');

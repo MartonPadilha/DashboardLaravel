@@ -31,7 +31,7 @@
                 </div>
 
                   <div class="row">
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                       <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                         <input class="form-control{{ $errors->has('date') ? ' Data inválida!' : '' }}" name="date" id="input-date" type="date" placeholder="{{ __('Data') }}" value="{{$demand->date}}" required="true" aria-required="true"/>
                         @if ($errors->has('date'))
@@ -40,7 +40,7 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-6">
+                    <div class="col-sm-4">
                       <div class="form-group{{ $errors->has('time') ? ' has-danger' : '' }}">
                         <select name="time" id="input-time" class="form-control{{ $errors->has('time') ? ' Horário Inválido!' : '' }}" required>
                             @if ($demand->time_take == "10:30")
@@ -58,11 +58,29 @@
                             @endif
                         </select>
                         {{-- <input class="form-control{{ $errors->has('time') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{ old('name') }}" required="true" aria-required="true"/> --}}
-                        @if ($errors->has('name'))
+                        @if ($errors->has('time'))
                           <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
                         @endif
                       </div>
                     </div>
+
+                    <div class="col-sm-4">
+                        <div class="form-group{{ $errors->has('status') ? ' has-danger' : '' }}">
+                          <select name="status" id="input-status" class="form-control{{ $errors->has('status') ? ' Status Inválido!' : '' }}" required>
+                              @if ($demand->status == "Aguardando")
+                                  <option value="Aguardando">Aguardando</option>
+                                  <option value="Entregue">Entregue</option>
+                              @else
+                                  <option value="Entregue">Entregue</option>
+                                  <option value="Aguardando">Aguardando</option>
+                              @endif
+                          </select>
+                          {{-- <input class="form-control{{ $errors->has('time') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{ old('name') }}" required="true" aria-required="true"/> --}}
+                          @if ($errors->has('status'))
+                            <span id="status-error" class="error text-danger" for="input-status">{{ $errors->first('status') }}</span>
+                          @endif
+                        </div>
+                      </div>
                   </div>
 
                   <div class="row">

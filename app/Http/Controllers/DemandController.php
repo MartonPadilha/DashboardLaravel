@@ -21,6 +21,14 @@ class DemandController extends Controller
         ]);
     }
 
+    public function demands(){
+        $demands = Demand::all();
+
+        return view('dashboard', [
+            'demands' => $demands
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -87,18 +95,26 @@ class DemandController extends Controller
      */
     public function update(Request $request, Demand $demand)
     {
-        $demand->name = $request->name;
-        $demand->slug = $demand->name;
-        $demand->time_take = $request->time;
-        $demand->date = $request->date;
-        $demand->product = $request->product;
-        $demand->quantity = $request->quantity;
-        $demand->value = $request->value;
-        $demand->status = "Aguardando";
-        $demand->save();
-
-        return redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
+        if ($request->name == '') {
+            $demand->status = "Entregue";
+            $demand->save();
+    
+            return redirect()->route('demand.index')->withStatus("Pedido entregue com sucesso!");
+        } else {
+            $demand->name = $request->name;
+            $demand->slug = $demand->name;
+            $demand->time_take = $request->time;
+            $demand->date = $request->date;
+            $demand->product = $request->product;
+            $demand->quantity = $request->quantity;
+            $demand->value = $request->value;
+            $demand->status = "Aguardando";
+            $demand->save();
+    
+            return redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
