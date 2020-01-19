@@ -57,4 +57,6 @@ Route::group(['middleware' => 'auth'], function () {
 
 Route::resource('pedidos', 'DemandController')->names('demand')->parameters(['pedidos' => 'demand']);
 
+Route::resource('clientes', 'ClientController')->names('client')->parameters(['clientes' => 'client']);
+
 Route::get('/home', 'DemandController@demands')->name('home');

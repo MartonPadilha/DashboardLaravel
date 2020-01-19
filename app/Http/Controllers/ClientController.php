@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Demand;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -14,7 +15,11 @@ class ClientController extends Controller
      */
     public function index()
     {
-        //
+        $clients = Client::all();
+
+        return view('clients\index', [
+            'clients' => $clients
+        ]);
     }
 
     /**
@@ -24,7 +29,8 @@ class ClientController extends Controller
      */
     public function create()
     {
-        //
+        $clients = Client::all();
+        return view('clients/create');
     }
 
     /**
@@ -35,7 +41,18 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = new Client();
+        $client->name = $request->name;
+        $client->slug = $request->name;
+        $client->date_birth = $request->date_birth;
+        $client->phone = $request->phone;
+        $client->city = $request->city;
+        $client->neighborhood = $request->neighborhood;
+        $client->address = $request->address . " - " . $request->number;
+        $client->quantity_demand = 1;
+        $client->save();
+
+        return redirect()->route('client.index')->withStatus("Cliente criado com sucesso!");
     }
 
     /**
@@ -57,7 +74,9 @@ class ClientController extends Controller
      */
     public function edit(Client $client)
     {
-        //
+        return view('clients/edit', [
+            'client' => $client
+        ]);
     }
 
     /**
@@ -80,6 +99,7 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        $client->delete();
+        return redirect()->route('client.index')->withStatus("Cliente excluído com sucesso!");
     }
 }
