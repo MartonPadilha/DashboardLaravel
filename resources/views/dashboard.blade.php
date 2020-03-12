@@ -34,8 +34,8 @@
             </div>
             <div class="card-footer">
               <div class="stats">
-                <i class="material-icons text-danger">warning</i>
-                <a href="#pablo">Get More Space...</a>
+                <i class="material-icons text-info">help</i>
+                Entregues/Total
               </div>
             </div>
           </div>
@@ -48,7 +48,7 @@
                 <i class="material-icons">attach_money</i>
               </div>
               <p class="card-category">Recebido</p>
-              <h4 class="card-title delivered">{{$value_delivered}}</h4><br>
+              <h4 class="card-title delivered">R${{$value_delivered}},00</h4><br>
               <p class="card-category">Á Receber</p>
               <h3 class="card-title">R${{$value_total}},00</h3>
             </div>
@@ -67,7 +67,7 @@
                 <i class="material-icons">info_outline</i>
               </div>
               <p class="card-category">Lucro Líquido Total</p>
-              <h3 class="card-title total_profit"></h3>
+              <h3 class="card-title total_profit">Teste</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
@@ -81,14 +81,14 @@
           <div class="card card-stats">
             <div class="card-header card-header-info card-header-icon">
               <div class="card-icon">
-                <i class="fa fa-twitter"></i>
+                <i class="fa fa-users"></i>
               </div>
-              <p class="card-category">Followers</p>
-              <h3 class="card-title">+245</h3>
+              <p class="card-category">Clientes Cadastrados</p>
+              <h3 class="card-title">156</h3>
             </div>
             <div class="card-footer">
               <div class="stats">
-                <i class="material-icons">update</i> Just Updated
+                <i class="material-icons">update</i> Atualizar
               </div>
             </div>
           </div>
