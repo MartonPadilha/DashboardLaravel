@@ -15,18 +15,18 @@ class CreateDemandsTable extends Migration
     {
         Schema::create('demands', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_client')->nullable();
-            $table->string('name');
+            $table->unsignedBigInteger('id_client');
+            $table->unsignedBigInteger('id_user');
             $table->string('slug');
             $table->string('time_take');
             $table->date('date');
-            $table->string('product');
             $table->integer('quantity');
             $table->float('value');
-            $table->string('status');
+            $table->string('status')->default('enable');
             $table->timestamps();
 
             $table->foreign('id_client')->references('id')->on('clients')->onDelete('CASCADE');
+            $table->foreign('id_user')->references('id')->on('users')->onDelete('CASCADE');
         });
     }
 

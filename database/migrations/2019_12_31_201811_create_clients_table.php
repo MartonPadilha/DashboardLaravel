@@ -22,7 +22,7 @@ class CreateClientsTable extends Migration
             $table->string('city');
             $table->string('neighborhood');
             $table->string('address');
-            $table->integer('quantity_demand');
+            $table->string('status')->default('enable');
             $table->timestamps();
         });
     }
