@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'category-management', 'titlePage' => __('Gerenciamento de Categorias')])
+@extends('layouts.app', ['activePage' => 'product-management', 'titlePage' => __('Gerenciamento de Produtos')])
 
 @section('content')
 <div class="content">
@@ -63,15 +63,13 @@
                           R${{ $product->value }}
                         </td>
                         
-                        {{-- <td class="td-actions text-right">
-
-
-                          <a rel="tooltip" class="btn btn-primary btn-link" href="{{ route('category.edit', ['category' => $category->id]) }}" data-original-title="" title="">
+                        <td class="td-actions text-right">
+                          <a rel="tooltip" class="btn btn-primary btn-link" href="{{ route('product.edit', ['product' => $product->id]) }}" data-original-title="" title="">
                             <i class="material-icons">edit</i>
                             <div class="ripple-container"></div>
                           </a>
 
-                          <form action="{{ route('category.destroy', ['category' => $category->id]) }}" method="post">
+                          <form action="{{ route('product.destroy', ['product' => $product->id]) }}" method="post">
                               @csrf
                               @method('delete')
                                 <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar esta categoria?") }}') ? this.parentElement.submit() : ''">
@@ -79,7 +77,8 @@
                                     <div class="ripple-container"></div>
                                 </button>
                             </form>
-                        </td> --}}
+                        </td>
+
                       </tr>
                     @endforeach
                   </tbody>

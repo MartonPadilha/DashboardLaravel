@@ -45,13 +45,13 @@
                 <span class="sidebar-normal"> {{ __('Pedidos') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'demand-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('demand.index') }}">
+            <li class="nav-item{{ $activePage == 'product-management' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('product.index') }}">
               <i class="material-icons">fastfood</i>
                 <span class="sidebar-normal"> {{ __('Produtos') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'demand-management' ? ' active' : '' }}">
+            <li class="nav-item{{ $activePage == 'category-management' ? ' active' : '' }}">
               <a class="nav-link" href="{{ route('category.index') }}">
               <i class="material-icons">storage</i>
                 <span class="sidebar-normal"> {{ __('Categorias') }} </span>
