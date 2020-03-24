@@ -24,6 +24,7 @@
             <b class="caret"></b>
           </p>
         </a>
+
         <div class="collapse show" id="laravelExample">
           <ul class="nav">
             <li class="nav-item{{ $activePage == 'profile' ? ' active' : '' }}">
@@ -44,8 +45,21 @@
                 <span class="sidebar-normal"> {{ __('Pedidos') }} </span>
               </a>
             </li>
+            <li class="nav-item{{ $activePage == 'demand-management' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('demand.index') }}">
+              <i class="material-icons">fastfood</i>
+                <span class="sidebar-normal"> {{ __('Produtos') }} </span>
+              </a>
+            </li>
+            <li class="nav-item{{ $activePage == 'demand-management' ? ' active' : '' }}">
+              <a class="nav-link" href="{{ route('category.index') }}">
+              <i class="material-icons">storage</i>
+                <span class="sidebar-normal"> {{ __('Categorias') }} </span>
+              </a>
+            </li>
           </ul>
         </div>
+
       </li>
       <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
         <a class="nav-link" href="{{ route('table') }}">

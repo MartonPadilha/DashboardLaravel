@@ -37,6 +37,8 @@ class CreateDemandsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('demands');
+        Schema::table('demands', function($table){
+            $table->integer('quantity');
+        });
     }
 }

@@ -59,4 +59,8 @@ Route::resource('pedidos', 'DemandController')->names('demand')->parameters(['pe
 
 Route::resource('clientes', 'ClientController')->names('client')->parameters(['clientes' => 'client']);
 
+Route::resource('categorias', 'CategoryController')->names('category')->parameters(['categorias' => 'category']);
+
+Route::resource('produtos', 'ProductController')->names('product')->parameters(['produtos' => 'product']);
+
 Route::get('/home', 'DemandController@demands')->name('home');
