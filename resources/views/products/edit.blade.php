@@ -49,7 +49,7 @@
                         <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                           <label for="input-category">Categoria</label>
                           <select name="category" id="input-category" class="form-control">
-                            <option value="" selected>{{$product->categories->name}}</option>
+                            <option value="{{$product->categories->id}}" selected>{{$product->categories->name}}</option>
                             @foreach ($category as $category)
                               @if ($product->categories->name != $category->name)
                                 <option value="{{$category->id}}">{{$category->name}}</option>

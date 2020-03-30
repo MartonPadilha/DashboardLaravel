@@ -53,14 +53,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
 	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+
+	Route::resource('pedidos', 'DemandController')->names('demand')->parameters(['pedidos' => 'demand']);
+	
+	Route::resource('clientes', 'ClientController')->names('client')->parameters(['clientes' => 'client']);
+	Route::get('clientautocomplete', 'ClientController@autocomplete')->name('client.autocomplete');
+	
+	Route::resource('categorias', 'CategoryController')->names('category')->parameters(['categorias' => 'category']);
+	
+	Route::resource('produtos', 'ProductController')->names('product')->parameters(['produtos' => 'product']);
+	Route::get('productautocomplete', 'ProductController@autocomplete')->name('product.autocomplete');
+
+	Route::get('/home', 'DemandController@demands')->name('home');
 });
-
-Route::resource('pedidos', 'DemandController')->names('demand')->parameters(['pedidos' => 'demand']);
-
-Route::resource('clientes', 'ClientController')->names('client')->parameters(['clientes' => 'client']);
-
-Route::resource('categorias', 'CategoryController')->names('category')->parameters(['categorias' => 'category']);
-
-Route::resource('produtos', 'ProductController')->names('product')->parameters(['produtos' => 'product']);
-
-Route::get('/home', 'DemandController@demands')->name('home');

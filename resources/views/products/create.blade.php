@@ -46,7 +46,7 @@
                       </div>
                       
                       <div class="col-sm-12">
-                        <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                        <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}">
                           <label for="input-category">Categoria</label>
                           <select name="category" id="input-category" class="form-control">
                             <option value="" disabled selected>Selecione</option>
@@ -54,8 +54,8 @@
                             <option value="{{$category->id}}">{{$category->name}}</option>
                             @endforeach
                           </select>
-                        @if ($errors->has('name'))
-                        <span id="name-error" class="error text-danger" for="input-category">{{ $errors->first('category') }}</span>
+                        @if ($errors->has('category'))
+                        <span id="category-error" class="error text-danger" for="input-category">{{ $errors->first('category') }}</span>
                         @endif
                       </div>
                     </div>

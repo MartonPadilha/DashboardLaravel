@@ -32,25 +32,25 @@
                   <table class="table">
                     <thead class=" text-primary">
                       <th>
-                          {{ __('Nome') }}
+                        {{ __('Usuário') }}
+                     </th>
+                      <th>
+                        {{ __('Cliente') }}
                       </th>
                       <th>
-                        {{ __('Data') }}
-                      </th>
-                      <th>
-                        {{ __('Pedido ás') }}
-                      </th>
-                      <th>
-                        {{ __('Buscar ás') }}
-                      </th>
-                      <th>
-                        {{ __('Produto') }}
-                      </th>
-                      <th>
-                        {{ __('Quantidade') }}
+                        {{ __('Produtos') }}
                       </th>
                       <th>
                         {{ __('Valor') }}
+                      </th>
+                      <th>
+                        {{ __('Pedido às') }}
+                      </th>
+                      <th>
+                        {{ __('Para às') }}
+                      </th>
+                      <th>
+                        {{ __('Data') }}
                       </th>
                       <th>
                         {{ __('Status') }}
@@ -63,10 +63,18 @@
                       @foreach($demands as $demand)
                         <tr>
                           <td>
-                            {{ $demand->name }}
+                            {{ $demand->users->name }}
                           </td>
                           <td>
-                            {{ date('d-m-Y', strtotime($demand->date))}}
+                            {{ $demand->clients->name }}
+                          </td>
+                          <td>
+                              @foreach ($demand->products as $product)
+                                  {{$product->name}}<br>
+                              @endforeach
+                          </td>
+                          <td>
+                            R$ {{ $demand->value }}
                           </td>
                           <td>
                             {{ date('H:i', strtotime($demand->created_at))}}
@@ -75,13 +83,7 @@
                             {{ $demand->time_take }}
                           </td>
                           <td>
-                            {{ $demand->product }}
-                          </td>
-                          <td>
-                            {{ $demand->quantity }}
-                          </td>
-                          <td>
-                            {{ $demand->value }}
+                            {{ date('d-m-Y', strtotime($demand->date))}}
                           </td>
                           <td>
                             {{ $demand->status }}

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Client;
 use App\Demand;
+use App\Product;
 use Illuminate\Http\Request;
 
 class DemandController extends Controller
@@ -28,7 +30,14 @@ class DemandController extends Controller
     public function create()
     {
         $demands = Demand::all();
-        return view('demands\create');
+        $clients = Client::all();
+        $products = Product::all();
+
+        return view('demands\create', [
+            'demand' => $demands,
+            'clients' => $clients,
+            'products' => $products
+        ]);
     }
 
     public function store(Request $request)

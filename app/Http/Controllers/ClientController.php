@@ -5,14 +5,12 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Demand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ClientController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
         $clients = Client::all();
@@ -22,23 +20,12 @@ class ClientController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         $clients = Client::all();
         return view('clients/create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $client = new Client();
@@ -55,23 +42,11 @@ class ClientController extends Controller
         return redirect()->route('client.index')->withStatus("Cliente criado com sucesso!");
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
     public function show(Client $client)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Client $client)
     {
         return view('clients/edit', [
@@ -79,27 +54,32 @@ class ClientController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Client $client)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Client  $client
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Client $client)
     {
         $client->delete();
         return redirect()->route('client.index')->withStatus("Cliente excluído com sucesso!");
+    }
+
+    public function autocomplete(Request $request){
+        if($request->ajax()) {
+            $clients = Client::where('name', 'LIKE', '%'.$request->client.'%')->get();
+            $output = '';
+            if (count($clients)>0) {
+                $output = '<datalist id="clients">';
+                foreach ($clients as $client){
+                    $output .= '<option value="'.$client->name.'">';
+                }
+                $output .= '</datalist>';
+            }
+            else {
+                return;
+            }
+            return $output;
+        } 
     }
 }
