@@ -142,35 +142,28 @@
                         });
                     // });
 
-                    // $('datalist#products').remove()
                     $('#autoproduct').on('keyup',function() {
+                      $('option').remove()
                             var query = $(this).val();                                        
                             $.ajax({
                                 url:"{{ route('product.autocomplete') }}",
                                 type:"GET",
                                 data:{'product':query},
                                 success:function (data) {
-                                  let products = data.split('/')
-                                  let list = $('#products')[0]
-                                 products.forEach(product => {
-                                  prod = product.split(';')
-                                  // output = $.create('option')
-                                  // output.attr('value', prod[0])
-                                  // console.log(output);
-                                  jQuery('<option/>', {
-                                    value: prod[0] 
-                                  }).appendTo(list)
-                                  
-                                  // output = <option value={prod[0]}>
-                                  // list.append(output)
+                                    let products = data.split('/')
+                                    let list = $('#products')[0]
+                                    products.pop()
+                                    products.forEach(product => {
+                                      prod = product.split(';')
+                                      let option = jQuery('<option/>', {
+                                        id: prod[1] ,
+                                        value: prod[0]
+                                      })
+                                      console.log(option.val());
+                                      
+                                      // option.replace(prod[1], prod[0])
+                                      option.appendTo(list)
                                   });
-                                  console.log(list);
-
-                                  
-                                  // data.split('-')
-                                  // product_name = data[0]
-                                  // product_id = data[1]
-                                  //   $('.autoproduct_list').html(product_name);
                                 }
                             })
                         });
