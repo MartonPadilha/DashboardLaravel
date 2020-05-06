@@ -72,14 +72,10 @@ class ProductController extends Controller
     public function autocomplete(Request $request){
         if($request->ajax()) {
             $products = Product::where('name', 'LIKE', '%'.$request->product.'%')->get();
-            $output = '';
             if (count($products)>0) {
-                // $output = '<datalist id="products">';
                 foreach ($products as $product){
-                    // $output .= '<option value="'.$product->name.'-'.$product->id.'">';
                     $output .= $product->name.';'.$product->id. '/';
                 }
-                // $output .= '</datalist>';
             }
             else {
                 return;

@@ -81,37 +81,46 @@
                   </div>
 
                   <div class="row">
-                    <div class="col-sm-6">
+
+                    <div class="col-sm-7">
                       <div class="form-group{{ $errors->has('product') ? ' has-danger' : '' }}">
-                        <label for="">Produtos</label>
-                        <input list="products" name="autoproduct" id="autoproduct" class="form-control{{ $errors->has('client') ? ' Cliente inválido!' : '' }}">
-                        <div class="autoproduct_list">
-                          <datalist id="products">
+                        <table class="products_demands">
+                          <thead>
+                            <tr class="col-sm-12">
+                              <th class="col-sm-7">
+                                <label for="">Produtos</label>
+                              </th>
+                              <th class="col-sm-2">
+                                <label for="">Valor Unitário</label>
+                              </th>
+                              <th class="col-sm-1">
+                                <label for="">Quantidade</label>
+                              </th>
+                              <th class="col-sm-2">
+                                <label for="">Valor Total</label>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($products as $product)
+                              <tr>
+                                <td>{{$product->name}}</td>
+                                <td>{{$product->value}}</td>
+                                <td><input type="number"></td>
+                                <td></td>
+                              </tr>
+                              @endforeach
+                          </tbody>
+                        </table>
 
-                          </datalist>
-                        </div>
-                        <div class="products_added"></div>
-                        <button class="btn btn-sm btn-primary add_product"><span class="material-icons">add_circle_outline</span></button>
-                        @if ($errors->has('product'))
-                          <span id="product-error" class="error text-danger" for="input-product">{{ $errors->first('product') }}</span>
-                        @endif
                       </div>
                     </div>
 
-                    <div class="col-sm-3">
-                      <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
-                        <input class="form-control{{ $errors->has('quantity') ? ' Quantidade inválida!' : '' }}" name="quantity" id="input-quantity" type="number" placeholder="{{ __('Quantidade') }}" value="{{ old('date') }}" required="true" aria-required="true" onchange="calc()"/>
-                        @if ($errors->has('quantity'))
-                          <span id="quantity-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>
-                        @endif
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group{{ $errors->has('value') ? ' has-danger' : '' }}">
-                        <input class="form-control{{ $errors->has('value') ? ' Valor inválido!' : '' }}" name="value" id="input-value" type="number" placeholder="{{ __('Valor') }}" value="{{ old('date') }}" required="true" aria-required="true"/>
-                        @if ($errors->has('value'))
-                          <span id="value-error" class="error text-danger" for="input-value">{{ $errors->first('value') }}</span>
+                    <div class="col-sm-5">
+                      <div class="form-group{{ $errors->has('total_demand') ? ' has-danger' : '' }}">
+                        <input class="form-control{{ $errors->has('total_demand') ? ' Quantidade inválida!' : '' }}" name="total_demand" id="input-total_demand" type="number" placeholder="{{ __('Total do Pedido') }}" value="{{ old('date') }}" required="true" aria-required="true" onchange="calc()"/>
+                        @if ($errors->has('total_demand'))
+                          <span id="total_demand-error" class="error text-danger" for="input-total_demand">{{ $errors->first('total_demand') }}</span>
                         @endif
                       </div>
                     </div>
@@ -122,6 +131,25 @@
                   
 
                   <script>
+
+                    let table_products = document.querySelector('.products_demands');
+                    table_products.addEventListener('keyup', function(e){
+                      let total_demand = 0;
+
+                      for(let i = 0; i < table_products.children[1].childElementCount; i ++){
+                      let tr = table_products.children[1].children[i]
+                      let value = tr.children[1].innerText;
+                      let quantity = tr.children[2].children[0].value;
+                      let total_value = value * quantity;
+                      
+                      tr.children[3].innerHTML = total_value
+                      
+                      total_demand += total_value; 
+                    }
+                      document.querySelector('#input-total_demand').value = parseFloat(total_demand)
+                      
+                    })
+
                     $(document).ready(function () {
                         $('#autoclient').on('keyup',function() {
                             var query = $(this).val();                                        
@@ -143,26 +171,22 @@
                     // });
 
                     $('#autoproduct').on('keyup',function() {
-                      $('option').remove()
                             var query = $(this).val();                                        
                             $.ajax({
                                 url:"{{ route('product.autocomplete') }}",
                                 type:"GET",
                                 data:{'product':query},
                                 success:function (data) {
-                                    let products = data.split('/')
-                                    let list = $('#products')[0]
-                                    products.pop()
-                                    products.forEach(product => {
-                                      prod = product.split(';')
-                                      let option = jQuery('<option/>', {
-                                        id: prod[1] ,
-                                        value: prod[0]
+                                    let products = data.split('/')//coloquei isso para tornar os valores um array de objetos
+                                    let list = $('#products')[0]//aqui pega meu datalist html
+                                    products.pop()//aqui retiro o ultimo elemento do array, que estava retornando vazio
+                                    products.forEach(product => {//percorro o array de produtos
+                                      prod = product.split(';')//aqui separo o nome do produto do id
+                                      let option = jQuery('<option/>', {// alimento o valor e o id em "<option>" que vai dentro do datalist
+                                        id: prod[1] , //pego o id do produto
+                                        value: prod[0] // nome do produto
                                       })
-                                      console.log(option.val());
-                                      
-                                      // option.replace(prod[1], prod[0])
-                                      option.appendTo(list)
+                                      option.appendTo(list) //adiciono o option dentro do meu datalist
                                   });
                                 }
                             })
