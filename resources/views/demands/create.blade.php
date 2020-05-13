@@ -58,10 +58,10 @@
 
                   <div class="row">
                     <div class="col-sm-6">
-                      <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
+                      <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }}">
                         <input class="form-control{{ $errors->has('date') ? ' Data inválida!' : '' }}" name="date" id="input-date" type="date" placeholder="{{ __('Data') }}" value="{{ old('date') }}" required="true" aria-required="true"/>
                         @if ($errors->has('date'))
-                          <span id="date-error" class="error text-danger" for="input-name">{{ $errors->first('date') }}</span>
+                          <span id="date-error" class="error text-danger" for="input-date">{{ $errors->first('date') }}</span>
                         @endif
                       </div>
                     </div>
@@ -87,7 +87,10 @@
                         <table class="products_demands">
                           <thead>
                             <tr class="col-sm-12">
-                              <th class="col-sm-7">
+                              <th style="visibility: hidden">
+                                <label for="">ID</label>
+                              </th>
+                              <th class="col-sm-6">
                                 <label for="">Produtos</label>
                               </th>
                               <th class="col-sm-2">
@@ -104,6 +107,7 @@
                           <tbody>
                             @foreach ($products as $product)
                               <tr>
+                                <td style="visibility: hidden">{{$product->id}}</td>
                                 <td>{{$product->name}}</td>
                                 <td>{{$product->value}}</td>
                                 <td><input type="number"></td>
@@ -116,9 +120,10 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-5">
+                    <div class="col-sm-5" style="border: 1px solid black">
                       <div class="form-group{{ $errors->has('total_demand') ? ' has-danger' : '' }}">
-                        <input class="form-control{{ $errors->has('total_demand') ? ' Quantidade inválida!' : '' }}" name="total_demand" id="input-total_demand" type="number" placeholder="{{ __('Total do Pedido') }}" value="{{ old('date') }}" required="true" aria-required="true" onchange="calc()"/>
+                        <label for="">Valor Total</label>
+                        <input class="form-control{{ $errors->has('total_demand') ? ' Quantidade inválida!' : '' }}" name="total_demand" id="input-total_demand" type="number" value="{{ old('date') }}" required="true" aria-required="true"/>
                         @if ($errors->has('total_demand'))
                           <span id="total_demand-error" class="error text-danger" for="input-total_demand">{{ $errors->first('total_demand') }}</span>
                         @endif
@@ -133,22 +138,59 @@
                   <script>
 
                     let table_products = document.querySelector('.products_demands');
-                    table_products.addEventListener('keyup', function(e){
-                      let total_demand = 0;
-
+                    
+                    var prods = {}
+                    var list = []
+                    let events = ['change', 'keyup']
+                    events.forEach(function(event){
+                      table_products.addEventListener(event, function(){
+                         prods = {}
+                         list = []
+                        
+                        let total_demand = 0;
+                      
                       for(let i = 0; i < table_products.children[1].childElementCount; i ++){
-                      let tr = table_products.children[1].children[i]
-                      let value = tr.children[1].innerText;
-                      let quantity = tr.children[2].children[0].value;
-                      let total_value = value * quantity;
-                      
-                      tr.children[3].innerHTML = total_value
-                      
-                      total_demand += total_value; 
+                        let tr = table_products.children[1].children[i]
+                        let value = tr.children[2].innerText;
+                        let quantity = tr.children[3].children[0].value;
+                        let total_value = value * quantity;
+                        
+                        tr.children[4].innerHTML = total_value
+                        
+                        total_demand += total_value;
+
+
+                        if (quantity > 0) {
+                          prods = {
+                            product: tr.children[0].innerHTML,
+                            quantity: quantity
+                          }
+                          list.push(prods)                          
+                        }
                     }
-                      document.querySelector('#input-total_demand').value = parseFloat(total_demand)
+                    document.querySelector('#input-total_demand').value = parseFloat(total_demand)
+
+                    
+                    console.log(list);
+                  })
+                })
+                
+                    // table_products.addEventListener('keyup', function(e){
+                    //   let total_demand = 0;
                       
-                    })
+                    //   for(let i = 0; i < table_products.children[1].childElementCount; i ++){
+                    //   let tr = table_products.children[1].children[i]
+                    //   let value = tr.children[2].innerText;
+                    //   let quantity = tr.children[3].children[0].value;
+                    //   let total_value = value * quantity;
+                      
+                    //   tr.children[4].innerHTML = total_value
+                      
+                    //   total_demand += total_value; 
+                    // }
+                    //   document.querySelector('#input-total_demand').value = parseFloat(total_demand)
+                      
+                    // })
 
                     $(document).ready(function () {
                         $('#autoclient').on('keyup',function() {
@@ -210,18 +252,9 @@
                           </div>`
                         )
                       product.innerHTML = ''
-                    })
+                    });
 
-                    function calc(){
-                      let select = document.querySelector('#input-product')
-                      let option = select.options[select.selectedIndex];
-                      let quantity = Number(document.querySelector('#input-quantity').value)
-                      if (option.value == "Frango Inteiro") {
-                        document.querySelector('#input-value').value = quantity * 30
-                      } else {
-                        document.querySelector('#input-value').value = quantity * 20
-                      }
-                    }
+
                   </script>
 
               <div class="card-footer ml-auto mr-auto">

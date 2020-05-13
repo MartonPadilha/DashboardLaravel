@@ -43,17 +43,18 @@ class DemandController extends Controller
     public function store(Request $request)
     {
         $demand = new Demand();
-        $demand->name = $request->name;
-        $demand->slug = $demand->name;
+        $demand->name = $request->autoclient;
+        // $demand->slug = $demand->name;
         $demand->time_take = $request->time;
         $demand->date = $request->date;
-        $demand->product = $request->product;
-        $demand->quantity = $request->quantity;
-        $demand->value = $request->value;
-        $demand->status = "Aguardando";
-        $demand->save();
+        // $demand->product = $request->product;
+        // $demand->quantity = $request->quantity;
+        // $demand->value = $request->value;
+        // $demand->status = "Aguardando";
+        // $demand->save();
+        dd($demand->time_take);
 
-        return redirect()->route('demand.index')->withStatus("Pedido criado com sucesso!");
+        // return redirect()->route('demand.index')->withStatus("Pedido criado com sucesso!");
     }
 
     public function show(Demand $demand)
