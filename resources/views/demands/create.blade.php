@@ -1,12 +1,12 @@
 @extends('layouts.app', ['activePage' => 'demand-management', 'titlePage' => _('Gerenciador de Pedidos')])
 
 @section('content')
-
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('demand.store') }}" autocomplete="off" class="form-horizontal">
+          <form method="post" autocomplete="off" class="form-horizontal">
             @csrf
             @method('post')
 
@@ -102,7 +102,7 @@
                     <div class="col-sm-5" style="border: 1px solid black">
                       <div class="form-group{{ $errors->has('total_demand') ? ' has-danger' : '' }}">
                         <label for="">Valor Total</label>
-                        <input class="form-control{{ $errors->has('total_demand') ? ' Quantidade inválida!' : '' }}" name="total_demand" id="input-total_demand" type="number" value="{{ old('date') }}" required="true" aria-required="true"/>
+                        <input class="form-control{{ $errors->has('total_demand') ? ' Total inválido!' : '' }}" name="total_demand" id="input-total_demand" type="number" value="{{ old('date') }}" required="true" aria-required="true"/>
                         @if ($errors->has('total_demand'))
                           <span id="total_demand-error" class="error text-danger" for="input-total_demand">{{ $errors->first('total_demand') }}</span>
                         @endif
@@ -121,6 +121,7 @@
                     var prods = {}
                     var list = []
                     let events = ['change', 'keyup']
+
                     events.forEach(function(event){
                       table_products.addEventListener(event, function(){
                          prods = {}
@@ -150,27 +151,10 @@
                     document.querySelector('#input-total_demand').value = parseFloat(total_demand)
 
                     
-                    console.log(list);
+                    // console.log(list);
                   })
                 })
                 
-                    // table_products.addEventListener('keyup', function(e){
-                    //   let total_demand = 0;
-                      
-                    //   for(let i = 0; i < table_products.children[1].childElementCount; i ++){
-                    //   let tr = table_products.children[1].children[i]
-                    //   let value = tr.children[2].innerText;
-                    //   let quantity = tr.children[3].children[0].value;
-                    //   let total_value = value * quantity;
-                      
-                    //   tr.children[4].innerHTML = total_value
-                      
-                    //   total_demand += total_value; 
-                    // }
-                    //   document.querySelector('#input-total_demand').value = parseFloat(total_demand)
-                      
-                    // })
-
                     $(document).ready(function () {
                         $('#autoclient').on('keyup',function() {
                             var query = $(this).val();                                        
@@ -235,10 +219,80 @@
 
 
                   </script>
-
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Adicionar') }}</button>
+                <button type="submit" class="btn btn-primary" id="send_button">{{ __('Adicionar') }}</button>
               </div>
+              <script>
+                let send_button = document.querySelector('#send_button');
+                send_button.addEventListener('click', function(e){
+                  e.preventDefault();
+                  prods = {}
+                  list = []
+                  for(let i = 0; i < table_products.children[1].childElementCount; i ++){
+                        let tr = table_products.children[1].children[i]
+                        let value = tr.children[2].innerText;
+                        let quantity = tr.children[3].children[0].value;
+                        let total_value = value * quantity;
+                        
+                        tr.children[4].innerHTML = total_value
+                        
+                        if (quantity > 0) {
+                          prods = {
+                            product: tr.children[0].innerHTML,
+                            quantity: quantity
+                          }
+                          list.push(prods);                       
+                        }
+                    }
+
+
+                    var client = $("input[name='autoclient'").val();
+                    var date = $("input[name='date'").val();
+                    var time = $("select[name='time'").val();
+                    var total_demand = $("input[name='total_demand'").val();
+
+                    
+                    $.ajaxSetup({
+                          headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                          }
+                        });
+
+            $.ajax({
+              url: "{{route('demand.store')}}",
+              type: 'post',
+              data: {
+                  client: client, 
+                  date: date,
+                  time: time,
+                  total_demand: total_demand,
+                  list: list
+                },
+              dataType: 'json',
+              // beforeSend: function(){
+              //     $(".messageBox").addClass('loading')
+              // },
+              success: function(response){
+                if (response.success) {
+                  // $('.messageBox').removeClass('loading')
+                  
+                  console.log(response)
+                  
+                } else {
+                  console.log('errou')
+                  
+                  // $('.messageBox').removeClass('loading')
+                  // $('.messageBox').removeClass('d-none').html(response.message)
+                }
+              }
+            })
+                    
+
+
+                  
+                
+                });
+              </script>
             </div>
           </form>
         </div>

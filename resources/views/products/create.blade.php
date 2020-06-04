@@ -24,6 +24,7 @@
                 <div class="row">
                   <div class="col-sm 6">
 
+                    <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
                           <label for="input-name">Nome</label>
@@ -33,18 +34,31 @@
                           @endif
                         </div>
                       </div>
+                    </div>
                       
-                      
-                      <div class="col-sm-12">
-                        <div class="form-group{{ $errors->has('value') ? ' has-danger' : '' }}">
-                          <label for="input-value">Valor</label>
-                          <input class="form-control{{ $errors->has('value') ? ' Nome Inválido!' : '' }}" name="value" id="input-value" type="number" required="true" aria-required="true"/>
-                          @if ($errors->has('value'))
-                          <span id="name-error" class="error text-danger" for="input-value">{{ $errors->first('value') }}</span>
-                          @endif
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('value') ? ' has-danger' : '' }}">
+                            <label for="input-value">Valor</label>
+                            <input class="form-control{{ $errors->has('value') ? ' Nome Inválido!' : '' }}" name="value" id="input-value" type="number" required="true" aria-required="true"/>
+                            @if ($errors->has('value'))
+                            <span id="name-error" class="error text-danger" for="input-value">{{ $errors->first('value') }}</span>
+                            @endif
+                          </div>
                         </div>
-                      </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('cost') ? ' has-danger' : '' }}">
+                            <label for="input-cost">Custo</label>
+                            <input class="form-control{{ $errors->has('cost') ? ' Nome Inválido!' : '' }}" name="cost" id="input-cost" type="number" required="true" aria-required="true"/>
+                            @if ($errors->has('cost'))
+                            <span id="name-error" class="error text-danger" for="input-cost">{{ $errors->first('cost') }}</span>
+                            @endif
+                          </div>
+                        </div>
+                    </div>
                       
+                    <div class="row">
                       <div class="col-sm-12">
                         <div class="form-group{{ $errors->has('category') ? ' has-danger' : '' }}">
                           <label for="input-category">Categoria</label>
@@ -60,6 +74,7 @@
                       </div>
                     </div>
                   </div>
+                </div>
                     
                   <div class="col-sm 6">
                     <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">

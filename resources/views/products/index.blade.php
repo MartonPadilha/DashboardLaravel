@@ -43,6 +43,9 @@
                     <th>
                       {{ __('Valor') }}
                     </th>
+                    <th>
+                      {{ __('Custo') }}
+                    </th>
                     <th class="text-right">
                       {{ __('Ações') }}
                     </th>
@@ -60,7 +63,10 @@
                           {{ $product->categories->name }}
                         </td>
                         <td>
-                          R${{ $product->value }}
+                          R$ {{ $product->value }}
+                        </td>
+                        <td>
+                          R$ {{ $product->cost }}
                         </td>
                         
                         <td class="td-actions text-right">

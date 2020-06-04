@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Demand;
 use App\Product;
+use App\ProductDemand;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DemandController extends Controller
 {
@@ -42,19 +44,33 @@ class DemandController extends Controller
 
     public function store(Request $request)
     {
+        
         $demand = new Demand();
-        $demand->name = $request->autoclient;
-        // $demand->slug = $demand->name;
+        $demand->id_client = 10000;
+        $clients = Client::all();
+            foreach($clients as $client){
+                if ($client['name'] == $request->client ) {
+                    $demand->id_client = (int)$client['id'];
+                } 
+            }
+        $demand->id_user = Auth::user()->id;
+        $demand->slug = $request->client;
         $demand->time_take = $request->time;
         $demand->date = $request->date;
-        // $demand->product = $request->product;
-        // $demand->quantity = $request->quantity;
-        // $demand->value = $request->value;
-        // $demand->status = "Aguardando";
-        // $demand->save();
-        dd($demand->time_take);
-
-        // return redirect()->route('demand.index')->withStatus("Pedido criado com sucesso!");
+        $demand->quantity = 0;
+        $demand->value = $request->total_demand;
+        $demand->status = "Aguardando";
+        $demand->save();
+        
+        foreach($request->list as $product){
+            for($i = 0; $i < $product['quantity']; $i++){
+                $demand->products()->attach($product['product']);
+                }
+            }
+                     
+        $suc['success'] = true;
+        echo json_encode($suc);
+        return;
     }
 
     public function show(Demand $demand)

@@ -38,7 +38,7 @@ class CreateDemandsTable extends Migration
     public function down()
     {
         Schema::table('demands', function($table){
-            $table->integer('quantity');
+            //
         });
     }
 }

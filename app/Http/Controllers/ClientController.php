@@ -36,7 +36,6 @@ class ClientController extends Controller
         $client->city = $request->city;
         $client->neighborhood = $request->neighborhood;
         $client->address = $request->address . " - " . $request->number;
-        $client->quantity_demand = 1;
         $client->save();
 
         return redirect()->route('client.index')->withStatus("Cliente criado com sucesso!");

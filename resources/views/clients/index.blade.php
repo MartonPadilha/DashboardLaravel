@@ -49,9 +49,6 @@
                       <th>
                         {{ __('Rua') }}
                       </th>
-                      <th>
-                        {{ __('Número de Pedidos') }}
-                      </th>
                       <th class="text-right">
                         {{ __('Ações') }}
                       </th>
@@ -76,9 +73,6 @@
                           </td>
                           <td>
                             {{ $client->address }}
-                          </td>
-                          <td>
-                            {{ $client->quantity_demand }}
                           </td>
                           <td class="td-actions text-right">
                             @if ($client->status == 'Aguardando')
