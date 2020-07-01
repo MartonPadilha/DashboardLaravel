@@ -59,19 +59,44 @@
                             <div class="ripple-container"></div>
                           </a>
 
-                          <form action="{{ route('category.destroy', ['category' => $category->id]) }}" method="post">
+                        <form name="form_delete_category" data-id="{{$category->id}}">
+                            {{-- action="{{ route('category.destroy', ['category' => $category->id]) }}" method="post" --}}
                               @csrf
                               @method('delete')
-                                <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar esta categoria?") }}') ? this.parentElement.submit() : ''">
+                                {{-- <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar esta categoria?") }}') ? this.parentElement.submit() : ''"> --}}
+                                  <button type="submit" class="btn btn-danger btn-link" data-toggle="modal" data-target="#exampleModal">
                                     <i class="material-icons">close</i>
                                     <div class="ripple-container"></div>
-                                </button>
+                                  </button>  
+                                {{-- </button> --}}
                             </form>
                         </td>
                       </tr>
                     @endforeach
                   </tbody>
                 </table>
+                {{-- <button type="button" class="btn btn-primary" >
+                  Launch demo modal
+                </button> --}}
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        ...
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -79,4 +104,24 @@
     </div>
   </div>
 </div>
+  {{-- To Ajax Requests --}}
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+  <script>
+    $('form[name="form_delete_category"]').submit(function(event){
+      event.preventDefault()
+      let dataid = $(this).attr('data-id')
+      // let url = "http://127.0.0.1:8000/categorias/" + dataid;
+      // {{ route('category.destroy', ['category' =>" +dataid+ "]) }}"
+      $.ajax({
+        url: url,
+        type: 'post',
+        data: $(this).serialize(),
+        dataType: 'json',
+        success: function(response){
+          console.log(response);
+        }
+      })
+    })
+  </script>
 @endsection

@@ -5,7 +5,7 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('category.store') }}" autocomplete="off" class="form-horizontal">
+          <form autocomplete="off" class="form-horizontal" name="form_create_category" action="{{ route('category.store') }}" method="POST">
             @csrf
             @method('post')
 
@@ -40,14 +40,12 @@
                         @endif
                       </div>
                     </div>
-
-
-
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Adicionar') }}</button>
               </div>
             </div>
           </form>
+          <div class="resultado"></div>
         </div>
       </div>
     </div>
