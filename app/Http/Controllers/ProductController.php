@@ -37,6 +37,8 @@ class ProductController extends Controller
         $product->value = $request->value;
         $product->cost = $request->cost;
         $product->id_category = $request->category;
+        $product->quantity = $request->quantity;
+        $product->id_um = $request->um;
         $product->save();
 
         return redirect()->route('product.index');

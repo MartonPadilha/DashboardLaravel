@@ -77,36 +77,36 @@
 
                   <div class="row">
                     <div class="col-sm-8">
-                      <div class="form-group{{ $errors->has('cost') ? ' has-danger' : '' }}">
-                        <label for="input-cost">Quantidade</label>
-                        <input class="form-control{{ $errors->has('cost') ? ' Nome Inválido!' : '' }}" name="cost" id="input-cost" type="number" required="true" aria-required="true"/>
-                        @if ($errors->has('cost'))
-                        <span id="name-error" class="error text-danger" for="input-cost">{{ $errors->first('cost') }}</span>
+                      <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
+                        <label for="input-quantity">Quantidade</label>
+                        <input class="form-control{{ $errors->has('quantity') ? ' Nome Inválido!' : '' }}" name="quantity" id="input-quantity" type="number" required="true" aria-required="true"/>
+                        @if ($errors->has('quantity'))
+                        <span id="name-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>
                         @endif
                       </div>
                     </div>
-
                     <div class="col-sm-4">
-                      <div class="form-group{{ $errors->has('cost') ? ' has-danger' : '' }}">
-                        <label for="input-cost">Unidade de Medida</label>
+                      <div class="form-group{{ $errors->has('um') ? ' has-danger' : '' }}">
+                        <label for="input-um">Unidade de Medida</label>
                         <select name="um" id="input-um" class="form-control">
                           <option value="" disabled selected>Selecione</option>
                           @foreach ($um as $um)
                           <option value="{{$um->id}}">{{$um->initials}}</option>
                           @endforeach
                         </select>
-                        @if ($errors->has('cost'))
-                        <span id="name-error" class="error text-danger" for="input-cost">{{ $errors->first('cost') }}</span>
+                        @if ($errors->has('um'))
+                        <span id="name-error" class="error text-danger" for="input-um">{{ $errors->first('um') }}</span>
                         @endif
                       </div>
                     </div>
                   </div>
+
                 </div>
                     
                   <div class="col-sm 6">
                     <div class="form-group{{ $errors->has('description') ? ' has-danger' : '' }}">
                       <label for="input-description">Descrição</label>
-                      <textarea name="description" id="" cols="30" rows="8" class="form-control{{ $errors->has('description') ? ' Descrição inválida!' : '' }}" id="input-description" required="true" aria-required="true"></textarea>
+                      <textarea name="description" id="" cols="30" rows="8" class="form-control{{ $errors->has('description') ? ' Descrição inválida!' : '' }}" id="input-description"></textarea>
                       @if ($errors->has('description'))
                         <span id="description-error" class="error text-danger" for="input-description">{{ $errors->first('description') }}</span>
                       @endif

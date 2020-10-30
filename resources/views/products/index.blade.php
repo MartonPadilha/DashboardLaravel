@@ -41,6 +41,9 @@
                       {{ __('Categoria') }}
                     </th>
                     <th>
+                      {{ __('Tamanho') }}
+                    </th>
+                    <th>
                       {{ __('Valor') }}
                     </th>
                     <th>
@@ -61,6 +64,9 @@
                         </td>
                         <td>
                           {{ $product->categories->name }}
+                        </td>
+                        <td>
+                            {{ $product->quantity }} {{ $product->ums->initials}}
                         </td>
                         <td>
                           R$ {{ $product->value }}

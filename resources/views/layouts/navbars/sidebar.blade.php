@@ -37,12 +37,32 @@
                 <span class="sidebar-normal"> {{ __('PRODUTOS') }} </span>
               </a>
             </li>
-            <li class="nav-item{{ $activePage == 'category-management' ? ' active' : '' }}">
-              <a class="nav-link" href="{{ route('category.index') }}">
-              <i class="material-icons">storage</i>
-                <span class="sidebar-normal"> {{ __('CATEGORIAS') }} </span>
+            
+            <li class="nav-item {{ ($activePage == 'category-management' || $activePage == 'um-management') ? ' active' : '' }}">
+              <a class="nav-link" data-toggle="collapse" href="#laravelExample" aria-expanded="true">
+                <i class="material-icons">format_align_left</i>
+                <span class="sidebar-normal">{{ __('COMPLEMENTOS') }}
+                  <b class="caret"></b>
+                </span>
               </a>
+              <div class="collapse show" id="laravelExample">
+                <ul class="nav">
+                  <li class="nav-item{{ $activePage == 'category-management' ? ' active' : '' }}">
+                    <a class="nav-link" href="{{ route('category.index') }}">
+                    <i class="material-icons">local_dining</i>
+                      <span class="sidebar-normal"> {{ __('CATEGORIAS') }} </span>
+                    </a>
+                  </li>
+                  <li class="nav-item{{ $activePage == 'um-management' ? ' active' : '' }}">
+                    <a class="nav-link" href="{{ route('um.index') }}">
+                    <i class="material-icons">info</i>
+                      <span class="sidebar-normal"> {{ __('UNIDADES DE MEDIDA') }} </span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
             </li>
+
             <li class="nav-item">
               <a class="nav-link" href="{{ route('logout') }}">
               <i class="material-icons">close</i>

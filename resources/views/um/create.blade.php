@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'demand-management', 'titlePage' => _('Gerenciador de Unidade de Medida')])
+@extends('layouts.app', ['activePage' => 'um-management', 'titlePage' => _('Gerenciador de Unidade de Medida')])
 
 @section('content')
 <div class="content">

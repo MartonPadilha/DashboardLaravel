@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'demand-management', 'titlePage' => _('Gerenciador de Pedidos')])
+@extends('layouts.app', ['activePage' => 'category-management', 'titlePage' => _('Gerenciador de Pedidos')])
 
 @section('content')
 <div class="content">
