@@ -74,6 +74,33 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group{{ $errors->has('cost') ? ' has-danger' : '' }}">
+                        <label for="input-cost">Quantidade</label>
+                        <input class="form-control{{ $errors->has('cost') ? ' Nome Inválido!' : '' }}" name="cost" id="input-cost" type="number" required="true" aria-required="true"/>
+                        @if ($errors->has('cost'))
+                        <span id="name-error" class="error text-danger" for="input-cost">{{ $errors->first('cost') }}</span>
+                        @endif
+                      </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                      <div class="form-group{{ $errors->has('cost') ? ' has-danger' : '' }}">
+                        <label for="input-cost">Unidade de Medida</label>
+                        <select name="um" id="input-um" class="form-control">
+                          <option value="" disabled selected>Selecione</option>
+                          @foreach ($um as $um)
+                          <option value="{{$um->id}}">{{$um->initials}}</option>
+                          @endforeach
+                        </select>
+                        @if ($errors->has('cost'))
+                        <span id="name-error" class="error text-danger" for="input-cost">{{ $errors->first('cost') }}</span>
+                        @endif
+                      </div>
+                    </div>
+                  </div>
                 </div>
                     
                   <div class="col-sm 6">

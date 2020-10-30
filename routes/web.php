@@ -64,5 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('produtos', 'ProductController')->names('product')->parameters(['produtos' => 'product']);
 	Route::get('productautocomplete', 'ProductController@autocomplete')->name('product.autocomplete');
 
+	Route::resource('unidadesmedida', 'UMController')->names('um')->parameters(['unidadesmedida' => 'um']);
+
 	Route::get('/home', 'DemandController@demands')->name('home');
 });

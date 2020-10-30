@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Product;
+use App\UM;
 
 class ProductController extends Controller
 {
@@ -21,8 +22,10 @@ class ProductController extends Controller
     public function create()
     {
         $categories = Category::all();
+        $um = UM::all();
         return view('products.create', [
-            'category' => $categories
+            'category' => $categories,
+            'um' => $um
         ]);
     }
 
