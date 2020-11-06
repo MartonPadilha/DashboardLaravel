@@ -11,18 +11,35 @@
               <p class="card-category"> {{ __('Aqui você pode gerenciar seus produtos') }}</p>
             </div>
             <div class="card-body">
-              @if (session('status'))
-                <div class="row">
-                  <div class="col-sm-12">
+              <div class="row">
+                <div class="col-sm-12">
+                  @if (session('create'))
                     <div class="alert alert-success">
                       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <i class="material-icons">close</i>
                       </button>
-                      <span>{{ session('status') }}</span>
+                      <span>{{ session('create') }}</span>
                     </div>
+                    @endif
+                    @if (session('edit'))
+                    <div class="alert alert-warning">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                      </button>
+                      <span>{{ session('edit') }}</span>
+                    </div>
+                    @endif
+                    @if (session('delete'))
+                    <div class="alert alert-danger">
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <i class="material-icons">close</i>
+                      </button>
+                      <span>{{ session('delete') }}</span>
+                    </div>
+                    @endif
                   </div>
                 </div>
-              @endif
+                
               <div class="row">
                 <div class="col-12 text-right">
                   <a href="{{ route('product.create') }}" class="btn btn-sm btn-primary">{{ __('Adicionar Produto') }}</a>

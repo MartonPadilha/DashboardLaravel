@@ -33,24 +33,35 @@
 
                   <div class="col-sm-3">
                     <div class="form-group{{ $errors->has('date_birth') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('date_birth') ? ' Data Inválida!' : '' }}" name="date_birth" id="input-date_birth" type="date" placeholder="{{ __('Data de Nascimento') }}" value="{{ old('date_birth') }}" required="true" aria-required="true"/>
+                      <input id='outra_data' class="form-control{{ $errors->has('date_birth') ? ' Data Inválida!' : '' }}" name="date_birth" id="input-date_birth" type="string" placeholder="{{ __('Data de Nascimento') }}" value="{{ old('date_birth') }}" required="true" aria-required="true"/>
                       @if ($errors->has('date_birth'))
                         <span id="date_birth-error" class="error text-danger" for="input-date_birth">{{ $errors->first('date_birth') }}</span>
                       @endif
                     </div>
                   </div>
 
-                  <div class="col-sm-3">
-                    <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('phone') ? ' Telefone Inválido!' : '' }}" name="phone" id="phone" type="number" placeholder="{{ __('Telefone') }}" value="{{ old('phone') }}" required="true" aria-required="true"/>
-                      @if ($errors->has('phone'))
-                        <span id="phone-error" class="error text-danger" for="phone">{{ $errors->first('phone') }}</span>
-                      @endif
+                  <div class="col-sm-2">
+                    <div class="form-group{{ $errors->has('sex') ? ' has-danger' : '' }}">
+                      <select name="sex" id="input-sex" class="form-control">
+                        <option value="" disabled selected>Selecione o Sexo</option>
+                                <option value="F">Feminino</option>
+                                <option value="M">Masculino</option>
+                                <option value="O">Outro</option>
+                        </select>
                     </div>
                   </div>
                 </div>
 
                   <div class="row">
+                    <div class="col-sm-3">
+                      <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
+                        <input class="form-control{{ $errors->has('phone') ? ' Telefone Inválido!' : '' }}" name="phone" id="phone" type="number" placeholder="{{ __('Telefone') }}" value="{{ old('phone') }}" required="true" aria-required="true"/>
+                        @if ($errors->has('phone'))
+                          <span id="phone-error" class="error text-danger" for="phone">{{ $errors->first('phone') }}</span>
+                        @endif
+                      </div>
+                    </div>
+
                     <div class="col-sm-4">
                       <div class="form-group{{ $errors->has('city') ? ' has-danger' : '' }}">
                         <input class="form-control{{ $errors->has('city') ? ' Cidade inválida!' : '' }}" name="city" id="city" type="text" placeholder="{{ __('Cidade') }}" value="{{ old('city') }}" required="true" aria-required="true"/>
@@ -68,24 +79,26 @@
                           @endif
                         </div>
                       </div>
+                  </div>
 
-                      <div class="col-sm-3">
-                        <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
-                          <input class="form-control{{ $errors->has('address') ? ' Rua inválida!' : '' }}" name="address" id="address" type="text" placeholder="{{ __('Rua') }}" value="{{ old('address') }}" required="true" aria-required="true"/>
-                          @if ($errors->has('address'))
-                            <span id="address-error" class="error text-danger" for="address">{{ $errors->first('address') }}</span>
-                          @endif
-                        </div>
+                  <div class="row">
+                    <div class="col-sm-7">
+                      <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
+                        <input class="form-control{{ $errors->has('address') ? ' Rua inválida!' : '' }}" name="address" id="address" type="text" placeholder="{{ __('Rua') }}" value="{{ old('address') }}" required="true" aria-required="true"/>
+                        @if ($errors->has('address'))
+                          <span id="address-error" class="error text-danger" for="address">{{ $errors->first('address') }}</span>
+                        @endif
                       </div>
+                    </div>
 
-                      <div class="col-sm-1">
-                        <div class="form-group{{ $errors->has('number') ? ' has-danger' : '' }}">
-                          <input class="form-control{{ $errors->has('number') ? ' Número inválido!' : '' }}" name="number" id="number" type="number" placeholder="{{ __('N') }}" value="{{ old('number') }}" required="true" aria-required="true"/>
-                          @if ($errors->has('number'))
-                            <span id="number-error" class="error text-danger" for="number">{{ $errors->first('number') }}</span>
-                          @endif
-                        </div>
+                    <div class="col-sm-1">
+                      <div class="form-group{{ $errors->has('number') ? ' has-danger' : '' }}">
+                        <input class="form-control{{ $errors->has('number') ? ' Número inválido!' : '' }}" name="number" id="number" type="number" placeholder="{{ __('N') }}" value="{{ old('number') }}" required="true" aria-required="true"/>
+                        @if ($errors->has('number'))
+                          <span id="number-error" class="error text-danger" for="number">{{ $errors->first('number') }}</span>
+                        @endif
                       </div>
+                    </div>
                   </div>
 
               <div class="card-footer ml-auto mr-auto">
@@ -97,4 +110,14 @@
       </div>
     </div>
   </div>
+
+  <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
+ 
+  <script language="javascript">
+    $(document).ready(function () {
+       $('#outra_data').mask('99/99/9999');
+       return false;
+   });
+  </script>
 @endsection

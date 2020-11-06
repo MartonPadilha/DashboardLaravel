@@ -78,7 +78,7 @@
                   <div class="row">
                     <div class="col-sm-8">
                       <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
-                        <label for="input-quantity">Quantidade</label>
+                        <label for="input-quantity">Tamanho</label>
                         <input class="form-control{{ $errors->has('quantity') ? ' Nome Inválido!' : '' }}" name="quantity" id="input-quantity" type="number" required="true" aria-required="true"/>
                         @if ($errors->has('quantity'))
                         <span id="name-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>

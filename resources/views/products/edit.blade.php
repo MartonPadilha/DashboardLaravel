@@ -76,6 +76,35 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="row">
+                    <div class="col-sm-8">
+                      <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
+                        <label for="input-quantity">Tamanho</label>
+                      <input class="form-control{{ $errors->has('quantity') ? ' Nome Inválido!' : '' }}" name="quantity" id="input-quantity" type="number" required="true" aria-required="true" value="{{$product->quantity}}"/>
+                        @if ($errors->has('quantity'))
+                        <span id="name-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>
+                        @endif
+                      </div>
+                    </div>
+                    <div class="col-sm-4">
+                      <div class="form-group{{ $errors->has('um') ? ' has-danger' : '' }}">
+                        <label for="input-um">Unidade de Medida</label>
+                        <select name="um" id="input-um" class="form-control">
+                        <option value="{{$product->ums->id}}" selected>{{$product->ums->initials}}</option>
+                          @foreach ($um as $um)
+                              @if ($product->ums->initials != $um->initials)
+                                <option value="{{$um->id}}">{{$um->initials}}</option>
+                              @endif
+                            @endforeach
+                        </select>
+                        @if ($errors->has('um'))
+                        <span id="name-error" class="error text-danger" for="input-um">{{ $errors->first('um') }}</span>
+                        @endif
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
                     
                   <div class="col-sm 6">

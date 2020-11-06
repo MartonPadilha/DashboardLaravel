@@ -31,14 +31,16 @@ class ClientController extends Controller
         $client = new Client();
         $client->name = $request->name;
         $client->slug = $request->name;
+        $client->sex = $request->sex;
         $client->date_birth = $request->date_birth;
         $client->phone = $request->phone;
         $client->city = $request->city;
         $client->neighborhood = $request->neighborhood;
-        $client->address = $request->address . " - " . $request->number;
+        $client->address = $request->address;
+        $client->number = $request->number;
         $client->save();
 
-        return redirect()->route('client.index')->withStatus("Cliente criado com sucesso!");
+        return redirect()->route('client.index')->with('create', 'Cliente '. $client->name .' criado!');
     }
 
     public function show(Client $client)
@@ -55,13 +57,25 @@ class ClientController extends Controller
 
     public function update(Request $request, Client $client)
     {
-        //
+        $client->name = $request->name;
+        $client->slug = $request->name;
+        $client->sex = $request->sex;
+        $client->date_birth = $request->date_birth;
+        $client->phone = $request->phone;
+        $client->city = $request->city;
+        $client->neighborhood = $request->neighborhood;
+        $client->address = $request->address;
+        $client->number = $request->number;
+
+        $client->save();
+
+        return redirect()->route('client.index')->with('edit', 'Cliente '. $client->name .' editado!');
     }
 
     public function destroy(Client $client)
     {
         $client->delete();
-        return redirect()->route('client.index')->withStatus("Cliente excluído com sucesso!");
+        return redirect()->route('client.index')->with('delete', 'Cliente '. $client->name .' deletado!');
     }
 
     public function autocomplete(Request $request){
