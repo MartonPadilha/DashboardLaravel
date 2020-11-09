@@ -33,7 +33,7 @@
 
                   <div class="col-sm-3">
                     <div class="form-group{{ $errors->has('date_birth') ? ' has-danger' : '' }}">
-                      <input id='outra_data' class="form-control{{ $errors->has('date_birth') ? ' Data Inválida!' : '' }}" name="date_birth" id="input-date_birth" type="string" placeholder="{{ __('Data de Nascimento') }}" value="{{ old('date_birth') }}" required="true" aria-required="true"/>
+                      <input id='date_birth' class="form-control{{ $errors->has('date_birth') ? ' Data Inválida!' : '' }}" name="date_birth" id="input-date_birth" type="string" placeholder="{{ __('Data de Nascimento') }}" value="{{ old('date_birth') }}" required="true" aria-required="true"/>
                       @if ($errors->has('date_birth'))
                         <span id="date_birth-error" class="error text-danger" for="input-date_birth">{{ $errors->first('date_birth') }}</span>
                       @endif
@@ -110,14 +110,4 @@
       </div>
     </div>
   </div>
-
-  <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
- 
-  <script language="javascript">
-    $(document).ready(function () {
-       $('#outra_data').mask('99/99/9999');
-       return false;
-   });
-  </script>
 @endsection

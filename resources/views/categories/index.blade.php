@@ -11,18 +11,34 @@
               <p class="card-category"> {{ __('Aqui você pode gerenciar suas categorias de produtos') }}</p>
             </div>
             <div class="card-body">
-              @if (session('status'))
                 <div class="row">
                   <div class="col-sm-12">
-                    <div class="alert alert-success">
-                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <i class="material-icons">close</i>
-                      </button>
-                      <span>{{ session('status') }}</span>
-                    </div>
+                    @if (session('create'))
+                      <div class="alert alert-success">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <i class="material-icons">close</i>
+                        </button>
+                        <span>{{ session('create') }}</span>
+                      </div>
+                      @endif
+                      @if (session('edit'))
+                      <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <i class="material-icons">close</i>
+                        </button>
+                        <span>{{ session('edit') }}</span>
+                      </div>
+                      @endif
+                      @if (session('delete'))
+                      <div class="alert alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <i class="material-icons">close</i>
+                        </button>
+                        <span>{{ session('delete') }}</span>
+                      </div>
+                      @endif
                   </div>
                 </div>
-              @endif
               <div class="row">
                 <div class="col-12 text-right">
                   <a href="{{ route('category.create') }}" class="btn btn-sm btn-primary">{{ __('Adicionar Categoria') }}</a>
@@ -59,12 +75,12 @@
                             <div class="ripple-container"></div>
                           </a>
 
-                        <form name="form_delete_category" data-id="{{$category->id}}">
-                            {{-- action="{{ route('category.destroy', ['category' => $category->id]) }}" method="post" --}}
+                        <form name="form_delete_category" action="{{ route('category.destroy', ['category' => $category->id]) }}" method="post">
+                            {{--data-id="{{$category->id}}"  --}}
                               @csrf
                               @method('delete')
-                                {{-- <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar esta categoria?") }}') ? this.parentElement.submit() : ''"> --}}
-                                  <button class="btn btn-danger btn-link" data-toggle="modal" data-target="#exampleModal">
+                                <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Você tem certeza que deseja deletar esta categoria?") }}') ? this.parentElement.submit() : ''">
+                                  {{-- <button class="btn btn-danger btn-link" data-toggle="modal" data-target="#exampleModal"> --}}
                                     <i class="material-icons">close</i>
                                     <div class="ripple-container"></div>
                                   </button>  

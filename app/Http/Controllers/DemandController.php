@@ -48,6 +48,7 @@ class DemandController extends Controller
         $demand = new Demand();
         $demand->id_client = 10000;
         $clients = Client::all();
+        //verifica se é um cliente existente ou não
             foreach($clients as $client){
                 if ($client['name'] == $request->client ) {
                     $demand->id_client = (int)$client['id'];

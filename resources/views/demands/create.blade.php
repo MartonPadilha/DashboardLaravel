@@ -111,7 +111,7 @@
                   </div>
 
                   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-                  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
                   
 
                   <script>
@@ -122,6 +122,7 @@
                     var list = []
                     let events = ['change', 'keyup']
 
+                    //CALCULA VALORES DOS PRODUTOS E DO PEDIDO
                     events.forEach(function(event){
                       table_products.addEventListener(event, function(){
                          prods = {}
@@ -155,7 +156,9 @@
                   })
                 })
                 
+                //AUTOCOMPLETES
                     $(document).ready(function () {
+                      //auto complete de clientes
                         $('#autoclient').on('keyup',function() {
                             var query = $(this).val();                                        
                             $.ajax({
@@ -175,6 +178,7 @@
                         });
                     // });
 
+                    // auto complete de produtos
                     $('#autoproduct').on('keyup',function() {
                             var query = $(this).val();                                        
                             $.ajax({
@@ -204,24 +208,24 @@
                         });
                     });
 
-                    let btn_add_product = document.querySelector('.add_product')
-                    btn_add_product.addEventListener('click', function(e){
-                      e.preventDefault()
-                      let product = document.querySelector('#autoproduct').value
-                      let products_added = document.querySelector('.products_added')
-                      products_added.insertAdjacentHTML('afterEnd', 
-                        `<div class="chip">
-                            <div id='id_product'>${product}<i class="close material-icons">close</i></div>                          
-                          </div>`
-                        )
-                      product.innerHTML = ''
-                    });
-
-
+                    // let btn_add_product = document.querySelector('.add_product')
+                    // btn_add_product.addEventListener('click', function(e){
+                    //   e.preventDefault()
+                    //   let product = document.querySelector('#autoproduct').value
+                    //   let products_added = document.querySelector('.products_added')
+                    //   products_added.insertAdjacentHTML('afterEnd', 
+                    //     `<div class="chip">
+                    //         <div id='id_product'>${product}<i class="close material-icons">close</i></div>                          
+                    //       </div>`
+                    //     )
+                    //   product.innerHTML = ''
+                    // });
                   </script>
+
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary" id="send_button">{{ __('Adicionar') }}</button>
               </div>
+
               <script>
                 let send_button = document.querySelector('#send_button');
                 send_button.addEventListener('click', function(e){
@@ -241,6 +245,7 @@
                             product: tr.children[0].innerHTML,
                             quantity: quantity
                           }
+                          console.log(prods);
                           list.push(prods);                       
                         }
                     }
@@ -275,7 +280,7 @@
               success: function(response){
                 if (response.success) {
                   // $('.messageBox').removeClass('loading')
-                  
+                  window.location.href = "{{route('demand.index')}}"
                   console.log(response)
                   
                 } else {

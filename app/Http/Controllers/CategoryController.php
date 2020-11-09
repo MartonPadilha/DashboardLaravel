@@ -29,7 +29,7 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->save();
         
-        return redirect()->route('category.index')->withStatus("Categoria criada com sucesso!");
+        return redirect()->route('category.index')->with('create', 'Categoria '. $category->name .' criada!');
     }
 
     public function show(Category $category)
@@ -50,16 +50,16 @@ class CategoryController extends Controller
         $category->description = $request->description;
         $category->save();
 
-        return redirect()->route('category.index');
+        return redirect()->route('category.index')->with('edit', 'Categoria '. $category->name .' editada!');
     }
 
     public function destroy(Category $category)
     {
         $category->delete();
-        $ajax['success'] = true;
-        $ajax['message'] = 'Deletado com sucesso';
-        echo json_encode($ajax);
-        return;
-        // return redirect()->route('category.index');
+        // $ajax['success'] = true;
+        // $ajax['message'] = 'Deletado com sucesso';
+        // echo json_encode($ajax);
+        // return;
+         return redirect()->route('category.index')->with('delete', 'Categoria '. $category->name .' deletada!');
     }
 }
