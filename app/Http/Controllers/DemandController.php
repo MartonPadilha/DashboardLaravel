@@ -68,6 +68,8 @@ class DemandController extends Controller
                 $demand->products()->attach($product['product']);
                 }
             }
+        
+        redirect()->route('demand.index')->with('create', 'Pedido ID '. $demand->id .' para '. $demand->clients->name .' criado!');
                      
         $suc['success'] = true;
         echo json_encode($suc);

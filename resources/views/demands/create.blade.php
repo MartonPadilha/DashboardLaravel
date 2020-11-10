@@ -245,7 +245,6 @@
                             product: tr.children[0].innerHTML,
                             quantity: quantity
                           }
-                          console.log(prods);
                           list.push(prods);                       
                         }
                     }
@@ -256,7 +255,6 @@
                     var time = $("select[name='time'").val();
                     var total_demand = $("input[name='total_demand'").val();
 
-                    
                     $.ajaxSetup({
                           headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
