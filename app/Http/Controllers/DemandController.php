@@ -92,6 +92,7 @@ class DemandController extends Controller
     {
         if ($request->name == '') {
             $demand->status = "Entregue";
+            $demand->delivered_at = date('Y-m-d H:i:s');
             $demand->save();
     
             return redirect()->route('demand.index')->withStatus("Pedido entregue com sucesso!");

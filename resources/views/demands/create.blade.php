@@ -47,14 +47,18 @@
 
                     <div class="col-sm-6">
                       <div class="form-group{{ $errors->has('time') ? ' has-danger' : '' }}">
-                        <select name="time" id="input-time" class="form-control{{ $errors->has('time') ? ' Horário Inválido!' : '' }}" required>
+                        <input class="form-control{{ $errors->has('time') ? ' Hora inválida!' : '' }}" name="time" id="input-time" type="time" placeholder="{{ __('Hora') }}" value="{{ old('time') }}" required="true" aria-required="true"/>
+                        @if ($errors->has('time'))
+                          <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
+                        @endif
+                        {{-- <select name="time" id="input-time" class="form-control{{ $errors->has('time') ? ' Horário Inválido!' : '' }}" required>
                           <option value="10:30">10:30</option>
                           <option value="11:20">11:20</option>
                           <option value="12:10">12:10</option>
                         </select>
                         @if ($errors->has('name'))
                           <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
-                        @endif
+                        @endif --}}
                       </div>
                     </div>
                   </div>
@@ -252,7 +256,7 @@
 
                     var client = $("input[name='autoclient'").val();
                     var date = $("input[name='date'").val();
-                    var time = $("select[name='time'").val();
+                    var time = $("input[name='time'").val();
                     var total_demand = $("input[name='total_demand'").val();
 
                     $.ajaxSetup({
