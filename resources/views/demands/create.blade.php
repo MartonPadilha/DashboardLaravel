@@ -33,57 +33,45 @@
                       @endif
                     </div>
                   </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }}">
+                      <label for="input-date">Data de Entrega</label>
+                      <input class="form-control{{ $errors->has('date') ? ' Data inválida!' : '' }}" name="date" id="input-date" type="date" placeholder="{{ __('Data') }}" value="{{ old('date') }}" required="true" aria-required="true"/>
+                      @if ($errors->has('date'))
+                        <span id="date-error" class="error text-danger" for="input-date">{{ $errors->first('date') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                  
+                  <div class="col-sm-3">
+                    <div class="form-group{{ $errors->has('time') ? ' has-danger' : '' }}">
+                      <label for="input-time">Hora de Entrega</label>
+                      <input class="form-control{{ $errors->has('time') ? ' Hora inválida!' : '' }}" name="time" id="input-time" type="time" placeholder="{{ __('Hora') }}" value="{{ old('time') }}" required="true" aria-required="true"/>
+                      @if ($errors->has('time'))
+                        <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
+                      @endif
+                    </div>
+                  </div>
                 </div>
 
                   <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }}">
-                        <input class="form-control{{ $errors->has('date') ? ' Data inválida!' : '' }}" name="date" id="input-date" type="date" placeholder="{{ __('Data') }}" value="{{ old('date') }}" required="true" aria-required="true"/>
-                        @if ($errors->has('date'))
-                          <span id="date-error" class="error text-danger" for="input-date">{{ $errors->first('date') }}</span>
-                        @endif
-                      </div>
-                    </div>
-
-                    <div class="col-sm-6">
-                      <div class="form-group{{ $errors->has('time') ? ' has-danger' : '' }}">
-                        <input class="form-control{{ $errors->has('time') ? ' Hora inválida!' : '' }}" name="time" id="input-time" type="time" placeholder="{{ __('Hora') }}" value="{{ old('time') }}" required="true" aria-required="true"/>
-                        @if ($errors->has('time'))
-                          <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
-                        @endif
-                        {{-- <select name="time" id="input-time" class="form-control{{ $errors->has('time') ? ' Horário Inválido!' : '' }}" required>
-                          <option value="10:30">10:30</option>
-                          <option value="11:20">11:20</option>
-                          <option value="12:10">12:10</option>
-                        </select>
-                        @if ($errors->has('name'))
-                          <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
-                        @endif --}}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-
-                    <div class="col-sm-7">
-                      <div class="form-group{{ $errors->has('product') ? ' has-danger' : '' }}">
-                        <table class="products_demands">
-                          <thead>
+                    <div class="col-sm-5">
+                      <div class="table-responsive">
+                        <table class="products_demands table">
+                          <thead class="text-primary">
                             <tr class="col-sm-12">
                               <th style="visibility: hidden">
                                 <label for="">ID</label>
                               </th>
-                              <th class="col-sm-6">
-                                <label for="">Produtos</label>
+                              <th class="col-sm-5">
+                                <label for="">Produto</label>
                               </th>
                               <th class="col-sm-2">
-                                <label for="">Valor Unitário</label>
+                                <label for="">Valor</label>
                               </th>
                               <th class="col-sm-1">
                                 <label for="">Quantidade</label>
-                              </th>
-                              <th class="col-sm-2">
-                                <label for="">Valor Total</label>
                               </th>
                             </tr>
                           </thead>
@@ -91,10 +79,9 @@
                             @foreach ($products as $product)
                               <tr>
                                 <td style="visibility: hidden">{{$product->id}}</td>
-                                <td>{{$product->name}}</td>
+                                <td>{{$product->name}} {{$product->quantity}} {{$product->ums->initials}}</td>
                                 <td>{{$product->value}}</td>
-                                <td><input type="number"></td>
-                                <td></td>
+                                <td><input type="number" id="quantity"></td>
                               </tr>
                               @endforeach
                           </tbody>
@@ -103,10 +90,11 @@
                       </div>
                     </div>
 
-                    <div class="col-sm-5" style="border: 1px solid black">
+                    <div class="col-sm-5">
                       <div class="form-group{{ $errors->has('total_demand') ? ' has-danger' : '' }}">
-                        <label for="">Valor Total</label>
-                        <input class="form-control{{ $errors->has('total_demand') ? ' Total inválido!' : '' }}" name="total_demand" id="input-total_demand" type="number" value="{{ old('date') }}" required="true" aria-required="true"/>
+                        <label for="input-total_demand" class="text-center">Valor Total</label>
+                        <div id="input-total_demand"></div>
+                        {{-- <input class="form-control{{ $errors->has('total_demand') ? ' Total inválido!' : '' }}" name="total_demand" id="input-total_demand" type="number" value="{{ old('date') }}" required="true" aria-required="true"/> --}}
                         @if ($errors->has('total_demand'))
                           <span id="total_demand-error" class="error text-danger" for="input-total_demand">{{ $errors->first('total_demand') }}</span>
                         @endif
@@ -140,10 +128,7 @@
                         let quantity = tr.children[3].children[0].value;
                         let total_value = value * quantity;
                         
-                        tr.children[4].innerHTML = total_value
-                        
                         total_demand += total_value;
-
 
                         if (quantity > 0) {
                           prods = {
@@ -153,10 +138,10 @@
                           list.push(prods)                          
                         }
                     }
-                    document.querySelector('#input-total_demand').value = parseFloat(total_demand)
 
-                    
-                    // console.log(list);
+                    document.querySelector('#input-total_demand').innerHTML = parseFloat(total_demand)
+
+
                   })
                 })
                 
@@ -211,19 +196,6 @@
                             $('.autoproduct_list').html("");
                         });
                     });
-
-                    // let btn_add_product = document.querySelector('.add_product')
-                    // btn_add_product.addEventListener('click', function(e){
-                    //   e.preventDefault()
-                    //   let product = document.querySelector('#autoproduct').value
-                    //   let products_added = document.querySelector('.products_added')
-                    //   products_added.insertAdjacentHTML('afterEnd', 
-                    //     `<div class="chip">
-                    //         <div id='id_product'>${product}<i class="close material-icons">close</i></div>                          
-                    //       </div>`
-                    //     )
-                    //   product.innerHTML = ''
-                    // });
                   </script>
 
               <div class="card-footer ml-auto mr-auto">
@@ -240,16 +212,16 @@
                         let tr = table_products.children[1].children[i]
                         let value = tr.children[2].innerText;
                         let quantity = tr.children[3].children[0].value;
-                        let total_value = value * quantity;
+                        // let total_value = value * quantity;
                         
-                        tr.children[4].innerHTML = total_value
-                        
+                        // tr.children[4].innerHTML = total_value
+
                         if (quantity > 0) {
                           prods = {
                             product: tr.children[0].innerHTML,
                             quantity: quantity
                           }
-                          list.push(prods);                       
+                          list.push(prods);                 
                         }
                     }
 
@@ -257,7 +229,7 @@
                     var client = $("input[name='autoclient'").val();
                     var date = $("input[name='date'").val();
                     var time = $("input[name='time'").val();
-                    var total_demand = $("input[name='total_demand'").val();
+                    var total_demand = $("#input-total_demand").text();
 
                     $.ajaxSetup({
                           headers: {
@@ -293,11 +265,6 @@
                 }
               }
             })
-                    
-
-
-                  
-                
                 });
               </script>
             </div>
@@ -306,4 +273,21 @@
       </div>
     </div>
   </div>
+
+  <style>
+    #input-total_demand{
+      color: gray;
+      font-size: 110px;
+      text-align: center;
+      align-items: center;
+      margin-top: 10%;
+      margin-bottom: 10%;
+    }
+
+    #quantity{
+      border: none;
+      width: 100%;
+      align-items: center
+    }
+  </style>
 @endsection

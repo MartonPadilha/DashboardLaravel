@@ -47,7 +47,7 @@
                 </div>
                 <div class="table-responsive">
                   <table class="table">
-                    <thead class=" text-primary">
+                    <thead class="text-primary">
                       <th>
                         {{ __('ID') }}
                      </th>
@@ -123,10 +123,12 @@
                            </form>                               
                             @endif
 
+                            @if ($demand->status <> "Entregue")
                             <a rel="tooltip" class="btn btn-primary btn-link" href="{{ route('demand.edit', ['demand' => $demand->id]) }}" data-original-title="" title="">
                               <i class="material-icons">edit</i>
                               <div class="ripple-container"></div>
-                            </a>
+                            </a> 
+                            @endif
 
                             <form action="{{ route('demand.destroy', ['demand' => $demand->id]) }}" method="post">
                                 @csrf
