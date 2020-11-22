@@ -1,16 +1,18 @@
-@extends('layouts.app', ['activePage' => 'demand-management', 'titlePage' => _('Editor de Pedido')])
+@extends('layouts.app', ['activePage' => 'demand-management', 'titlePage' => _('Gerenciador de Pedidos')])
 
 @section('content')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('demand.update', ['demand' => $demand->id]) }}" autocomplete="off" class="form-horizontal">
+          <form method="post" autocomplete="off" class="form-horizontal">
             @csrf
-            @method('put')
+            @method('post')
+
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Editar Pedido') }}</h4>
+                <h4 class="card-title">{{ __('Adicionar Pedido') }}</h4>
                 <p class="card-category"></p>
               </div>
               <div class="card-body ">
@@ -19,127 +21,280 @@
                       <a href="{{ route('demand.index') }}" class="btn btn-sm btn-primary">{{ __('Voltar a lista') }}</a>
                   </div>
                 </div>
+
                 <div class="row">
-                  <div class="col-sm-7">
-                    <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                    <input class="form-control{{ $errors->has('name') ? ' Nome Inválido!' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{$demand->name}}" required="true" aria-required="true"/>
-                      @if ($errors->has('name'))
-                        <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('name') }}</span>
+                  <div class="col-sm-6">
+                    <div class="form-group{{ $errors->has('client') ? ' has-danger' : '' }}">
+                      <label for="input-client">Cliente</label>
+                      <input list="clients" name="autoclient" id="autoclient" class="form-control{{ $errors->has('client') ? ' Cliente inválido!' : '' }}" value="{{$demands->clients->name}}">
+                      <div class="autoclient_list"></div>
+                      @if ($errors->has('client'))
+                      <span id="client-error" class="error text-danger" for="input-client">{{ $errors->first('client') }}</span>
+                      @endif
+                    </div>
+                  </div>
+
+                  <div class="col-sm-3">
+                    <div class="form-group{{ $errors->has('date') ? ' has-danger' : '' }}">
+                      <label for="input-date">Data de Entrega</label>
+                      <input class="form-control{{ $errors->has('date') ? ' Data inválida!' : '' }}" name="date" id="input-date" type="date" placeholder="{{ __('Data') }}" value="{{$demands->date}}" required="true" aria-required="true"/>
+                      @if ($errors->has('date'))
+                        <span id="date-error" class="error text-danger" for="input-date">{{ $errors->first('date') }}</span>
+                      @endif
+                    </div>
+                  </div>
+                  
+                  <div class="col-sm-3">
+                    <div class="form-group{{ $errors->has('time') ? ' has-danger' : '' }}">
+                      <label for="input-time">Hora de Entrega</label>
+                      <input class="form-control{{ $errors->has('time') ? ' Hora inválida!' : '' }}" name="time" id="input-time" type="time" placeholder="{{ __('Hora') }}" value="{{$demands->time_take}}" required="true" aria-required="true"/>
+                      @if ($errors->has('time'))
+                        <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
                       @endif
                     </div>
                   </div>
                 </div>
 
                   <div class="row">
-                    <div class="col-sm-4">
-                      <div class="form-group{{ $errors->has('name') ? ' has-danger' : '' }}">
-                        <input class="form-control{{ $errors->has('date') ? ' Data inválida!' : '' }}" name="date" id="input-date" type="date" placeholder="{{ __('Data') }}" value="{{$demand->date}}" required="true" aria-required="true"/>
-                        @if ($errors->has('date'))
-                          <span id="date-error" class="error text-danger" for="input-name">{{ $errors->first('date') }}</span>
-                        @endif
+                    <div class="col-sm-5">
+                      <div class="table-responsive">
+                        <table class="products_demands table">
+                          <thead class="text-primary">
+                            <tr class="col-sm-12">
+                              <th style="visibility: hidden">
+                                <label for="">ID</label>
+                              </th>
+                              <th class="col-sm-5">
+                                <label for="">Produto</label>
+                              </th>
+                              <th class="col-sm-2">
+                                <label for="">Valor</label>
+                              </th>
+                              <th class="col-sm-1">
+                                <label for="">Quantidade</label>
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($products as $product)
+                            {{-- utilizado php puro para o codigo não aparecer no html --}}
+                           <?php $i = 0 ?> 
+                              <tr>
+                                <td style="visibility: hidden">{{$product->id}}</td>
+                                <td>{{$product->name}} {{$product->quantity}} {{$product->ums->initials}}</td>
+                                <td>{{$product->value}}</td>
+                                @foreach ($demands->products as $item)
+                                  @if ($item->id == $product->id)
+                                  <?php $i++?> 
+                                  @endif
+                                @endforeach
+                                <td><input type="number" id="quantity" value={{$i}}></td>
+                              </tr>
+                              @endforeach
+                          </tbody>
+                        </table>
+
                       </div>
                     </div>
 
-                    <div class="col-sm-4">
-                      <div class="form-group{{ $errors->has('time') ? ' has-danger' : '' }}">
-                        <select name="time" id="input-time" class="form-control{{ $errors->has('time') ? ' Horário Inválido!' : '' }}" required>
-                            @if ($demand->time_take == "10:30")
-                                <option value="10:30">10:30</option>
-                                <option value="11:20">11:20</option>
-                                <option value="12:10">12:10</option> 
-                            @elseif ($demand->time_take == "11:20")
-                                <option value="11:20">11:20</option>
-                                <option value="10:30">10:30</option>
-                                <option value="12:10">12:10</option> 
-                            @else
-                                <option value="12:10">12:10</option> 
-                                <option value="10:30">10:30</option>
-                                <option value="11:20">11:20</option>
-                            @endif
-                        </select>
-                        {{-- <input class="form-control{{ $errors->has('time') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{ old('name') }}" required="true" aria-required="true"/> --}}
-                        @if ($errors->has('time'))
-                          <span id="time-error" class="error text-danger" for="input-time">{{ $errors->first('time') }}</span>
-                        @endif
-                      </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="form-group{{ $errors->has('status') ? ' has-danger' : '' }}">
-                          <select name="status" id="input-status" class="form-control{{ $errors->has('status') ? ' Status Inválido!' : '' }}" required>
-                              @if ($demand->status == "Aguardando")
-                                  <option value="Aguardando">Aguardando</option>
-                                  <option value="Entregue">Entregue</option>
-                              @else
-                                  <option value="Entregue">Entregue</option>
-                                  <option value="Aguardando">Aguardando</option>
-                              @endif
-                          </select>
-                          {{-- <input class="form-control{{ $errors->has('time') ? ' is-invalid' : '' }}" name="name" id="input-name" type="text" placeholder="{{ __('Nome') }}" value="{{ old('name') }}" required="true" aria-required="true"/> --}}
-                          @if ($errors->has('status'))
-                            <span id="status-error" class="error text-danger" for="input-status">{{ $errors->first('status') }}</span>
-                          @endif
-                        </div>
-                      </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <div class="form-group{{ $errors->has('product') ? ' has-danger' : '' }}">
-                        <select name="product" id="input-product" class="form-control{{ $errors->has('product') ? ' Produto Inválido' : '' }}" required onchange="calc()">
-                            @if ($demand->product == "Frango Inteiro")
-                                <option value="Frango Inteiro">Frango Inteiro</option>
-                                <option value="1/2 Frango">1/2 Frango</option>
-                            @else
-                                <option value="1/2 Frango">1/2 Frango</option>
-                                <option value="Frango Inteiro">Frango Inteiro</option>
-                            @endif
-                        </select>
-                        @if ($errors->has('product'))
-                          <span id="product-error" class="error text-danger" for="input-product">{{ $errors->first('product') }}</span>
-                        @endif
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group{{ $errors->has('quantity') ? ' has-danger' : '' }}">
-                        <input class="form-control{{ $errors->has('quantity') ? ' Quantidade inválida!' : '' }}" name="quantity" id="input-quantity" type="number" placeholder="{{ __('Quantidade') }}" value="{{$demand->quantity}}" required="true" aria-required="true" onchange="calc()"/>
-                        @if ($errors->has('quantity'))
-                          <span id="quantity-error" class="error text-danger" for="input-quantity">{{ $errors->first('quantity') }}</span>
-                        @endif
-                      </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                      <div class="form-group{{ $errors->has('value') ? ' has-danger' : '' }}">
-                      <input class="form-control{{ $errors->has('value') ? ' Valor inválido!' : '' }}" name="value" id="input-value" type="number" value="{{$demand->value}}" placeholder="{{ __('Valor') }}" required="true" aria-required="true"/>
-                        @if ($errors->has('value'))
-                          <span id="value-error" class="error text-danger" for="input-value">{{ $errors->first('value') }}</span>
+                    <div class="col-sm-5">
+                      <div class="form-group{{ $errors->has('total_demand') ? ' has-danger' : '' }}">
+                        <label for="input-total_demand" class="text-center">Valor Total</label>
+                      <div id="input-total_demand">{{$demands->value}}</div>
+                        {{-- <input class="form-control{{ $errors->has('total_demand') ? ' Total inválido!' : '' }}" name="total_demand" id="input-total_demand" type="number" value="{{ old('date') }}" required="true" aria-required="true"/> --}}
+                        @if ($errors->has('total_demand'))
+                          <span id="total_demand-error" class="error text-danger" for="input-total_demand">{{ $errors->first('total_demand') }}</span>
                         @endif
                       </div>
                     </div>
                   </div>
+
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+                  
 
                   <script>
-                    function calc(){
-                      let select = document.querySelector('#input-product')
-                      let option = select.options[select.selectedIndex];
-                      let quantity = Number(document.querySelector('#input-quantity').value)
-                      if (option.value == "Frango Inteiro") {
-                        document.querySelector('#input-value').value = quantity * 30
-                      } else {
-                        document.querySelector('#input-value').value = quantity * 20
-                      }
+
+                    let table_products = document.querySelector('.products_demands');
+                    
+                    var prods = {}
+                    var list = []
+                    let events = ['change', 'keyup']
+
+                    //CALCULA VALORES DOS PRODUTOS E DO PEDIDO
+                    events.forEach(function(event){
+                      table_products.addEventListener(event, function(){
+                         prods = {}
+                         list = []
+                        
+                        let total_demand = 0;
+                      
+                      for(let i = 0; i < table_products.children[1].childElementCount; i ++){
+                        let tr = table_products.children[1].children[i]
+                        let value = tr.children[2].innerText;
+                        let quantity = tr.children[3].children[0].value;
+                        let total_value = value * quantity;
+                        
+                        total_demand += total_value;
+
+                        if (quantity > 0) {
+                          prods = {
+                            product: tr.children[0].innerHTML,
+                            quantity: quantity
+                          }
+                          list.push(prods)                          
+                        }
                     }
+
+                    document.querySelector('#input-total_demand').innerHTML = parseFloat(total_demand)
+
+
+                  })
+                })
+                
+                //AUTOCOMPLETES
+                    $(document).ready(function () {
+                      //auto complete de clientes
+                        $('#autoclient').on('keyup',function() {
+                            var query = $(this).val();                                        
+                            $.ajax({
+                                url:"{{ route('client.autocomplete') }}",
+                                type:"GET",
+                                data:{'client':query},
+                                success:function (data) {
+                                    $('.autoclient_list').html(data);
+                                }
+                            })
+                        });
+
+                        $(document).on('click', 'li', function(){
+                            var value = $(this).text();
+                            $('.autoclient').val(value);
+                            $('.autoclient_list').html("");
+                        });
+                    // });
+
+                    // auto complete de produtos
+                    $('#autoproduct').on('keyup',function() {
+                            var query = $(this).val();                                        
+                            $.ajax({
+                                url:"{{ route('product.autocomplete') }}",
+                                type:"GET",
+                                data:{'product':query},
+                                success:function (data) {
+                                    let products = data.split('/')//coloquei isso para tornar os valores um array de objetos
+                                    let list = $('#products')[0]//aqui pega meu datalist html
+                                    products.pop()//aqui retiro o ultimo elemento do array, que estava retornando vazio
+                                    products.forEach(product => {//percorro o array de produtos
+                                      prod = product.split(';')//aqui separo o nome do produto do id
+                                      let option = jQuery('<option/>', {// alimento o valor e o id em "<option>" que vai dentro do datalist
+                                        id: prod[1] , //pego o id do produto
+                                        value: prod[0] // nome do produto
+                                      })
+                                      option.appendTo(list) //adiciono o option dentro do meu datalist
+                                  });
+                                }
+                            })
+                        });
+
+                        $(document).on('click', 'li', function(){
+                            var value = $(this).text();
+                            $('.autoproduct').val(value);
+                            $('.autoproduct_list').html("");
+                        });
+                    });
                   </script>
 
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Salvar') }}</button>
+                <button type="submit" class="btn btn-primary" id="send_button">{{ __('Adicionar') }}</button>
               </div>
+
+              <script>
+                let send_button = document.querySelector('#send_button');
+                send_button.addEventListener('click', function(e){
+                  e.preventDefault();
+                  prods = {}
+                  list = []
+                  for(let i = 0; i < table_products.children[1].childElementCount; i ++){
+                        let tr = table_products.children[1].children[i]
+                        let value = tr.children[2].innerText;
+                        let quantity = tr.children[3].children[0].value;
+                        // let total_value = value * quantity;
+                        
+                        // tr.children[4].innerHTML = total_value
+
+                        if (quantity > 0) {
+                          prods = {
+                            product: tr.children[0].innerHTML,
+                            quantity: quantity
+                          }
+                          list.push(prods);                 
+                        }
+                    }
+
+
+                    var client = $("input[name='autoclient'").val();
+                    var date = $("input[name='date'").val();
+                    var time = $("input[name='time'").val();
+                    var total_demand = $("#input-total_demand").text();
+
+                    $.ajaxSetup({
+                          headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                          }
+                        });
+
+            $.ajax({
+              url: "{{route('demand.store')}}",
+              type: 'post',
+              data: {
+                  client: client, 
+                  date: date,
+                  time: time,
+                  total_demand: total_demand,
+                  list: list
+                },
+              dataType: 'json',
+              // beforeSend: function(){
+              //     $(".messageBox").addClass('loading')
+              // },
+              success: function(response){
+                if (response.success) {
+                  // $('.messageBox').removeClass('loading')
+                  window.location.href = "{{route('demand.index')}}"
+                  console.log(response)
+                  
+                } else {
+                  console.log('errou')
+                  
+                  // $('.messageBox').removeClass('loading')
+                  // $('.messageBox').removeClass('d-none').html(response.message)
+                }
+              }
+            })
+                });
+              </script>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
+
+  <style>
+    #input-total_demand{
+      color: gray;
+      font-size: 110px;
+      text-align: center;
+      align-items: center;
+      margin-top: 10%;
+      margin-bottom: 10%;
+    }
+
+    #quantity{
+      border: none;
+      width: 100%;
+      align-items: center
+    }
+  </style>
 @endsection

@@ -83,8 +83,13 @@ class DemandController extends Controller
 
     public function edit(Demand $demand)
     {
+        $client = Client::all();
+        $product = Product::all();
+
         return view('demands\edit', [
-            'demand' => $demand
+            'demands' => $demand,
+            'clients' => $client,
+            'products' => $product
         ]);
     }
 
