@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $table = 'products';
-
+    protected $primaryKey = 'id';
     public function categories(){
         return $this->belongsTo(Category::class, 'id_category', 'id');
     }

@@ -48,7 +48,7 @@ class DemandController extends Controller
         $demand = new Demand();
         $demand->id_client = 10000;
         $clients = Client::all();
-        //verifica se é um cliente existente ou não
+        //Seta o id do cliente
             foreach($clients as $client){
                 if ($client['name'] == $request->client ) {
                     $demand->id_client = (int)$client['id'];
@@ -95,25 +95,51 @@ class DemandController extends Controller
 
     public function update(Request $request, Demand $demand)
     {
-        if ($request->name == '') {
-            $demand->status = "Entregue";
-            $demand->delivered_at = date('Y-m-d H:i:s');
-            $demand->save();
+        // if ($request->name == '') {
+        //     $demand->status = "Entregue";
+        //     $demand->delivered_at = date('Y-m-d H:i:s');
+        //     $demand->save();
     
-            return redirect()->route('demand.index')->withStatus("Pedido entregue com sucesso!");
-        } else {
-            $demand->name = $request->name;
-            $demand->slug = $demand->name;
+        //     return redirect()->route('demand.index')->withStatus("Pedido entregue com sucesso!");
+        // } else {
+            // $demand->name = $request->name;
+            // $demand->slug = $demand->name;
+            // $demand->time_take = $request->time;
+            // $demand->date = $request->date;
+            // $demand->product = $request->product;
+            // $demand->quantity = $request->quantity;
+            // $demand->value = $request->value;
+            // $demand->status = "Aguardando";
+            // $demand->save();
+    
+            // redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
+            $clients = Client::all();
+            foreach($clients as $client){
+                if ($client['name'] == $request->client ) {
+                    $demand->id_client = (int)$client['id'];
+                } 
+            }
+            $demand->id_user = Auth::user()->id;
+            $demand->slug = $request->client;
             $demand->time_take = $request->time;
             $demand->date = $request->date;
-            $demand->product = $request->product;
-            $demand->quantity = $request->quantity;
             $demand->value = $request->value;
             $demand->status = "Aguardando";
             $demand->save();
-    
-            return redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
-        }
+            // redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
+                    
+            $demand->products()->wherePivot('id_demand', '=', $demand->id)->detach();
+            foreach($request->list as $product){
+                for($i = 0; $i < $product['quantity']; $i++){
+                    $demand->products()->attach($product['product']);
+                    }
+                }
+
+            $suc['success'] = true;
+            $suc['message'] = 'teste';
+            echo json_encode($suc);
+            return;
+        // }
     }
 
     public function destroy(Demand $demand)

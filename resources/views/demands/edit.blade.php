@@ -7,8 +7,9 @@
       <div class="row">
         <div class="col-md-12">
           <form method="post" autocomplete="off" class="form-horizontal">
+            {{-- action="{{ route('demand.update', ['demand' => $demands->id]) }}" --}}
             @csrf
-            @method('post')
+            @method('PUT')
 
             <div class="card ">
               <div class="card-header card-header-primary">
@@ -245,13 +246,13 @@
                         });
 
             $.ajax({
-              url: "{{route('demand.store')}}",
-              type: 'post',
+              url: "{{route('demand.update', ['demand' => $demands->id])}}",
+              type: 'put',
               data: {
                   client: client, 
                   date: date,
                   time: time,
-                  total_demand: total_demand,
+                  value: total_demand,
                   list: list
                 },
               dataType: 'json',
@@ -261,8 +262,8 @@
               success: function(response){
                 if (response.success) {
                   // $('.messageBox').removeClass('loading')
-                  window.location.href = "{{route('demand.index')}}"
-                  console.log(response)
+                  // window.location.href = "{{route('demand.index')}}"
+                  console.log(response.message)
                   
                 } else {
                   console.log('errou')
