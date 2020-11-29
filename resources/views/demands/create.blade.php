@@ -255,10 +255,9 @@
                 if (response.success) {
                   // $('.messageBox').removeClass('loading')
                   window.location.href = "{{route('demand.index')}}"
-                  console.log(response)
                   
                 } else {
-                  console.log('errou')
+                  console.log('Erro')
                   
                   // $('.messageBox').removeClass('loading')
                   // $('.messageBox').removeClass('d-none').html(response.message)

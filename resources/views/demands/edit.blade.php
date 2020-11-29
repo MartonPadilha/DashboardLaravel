@@ -102,7 +102,6 @@
                       <div class="form-group{{ $errors->has('total_demand') ? ' has-danger' : '' }}">
                         <label for="input-total_demand" class="text-center">Valor Total</label>
                       <div id="input-total_demand">{{$demands->value}}</div>
-                        {{-- <input class="form-control{{ $errors->has('total_demand') ? ' Total inválido!' : '' }}" name="total_demand" id="input-total_demand" type="number" value="{{ old('date') }}" required="true" aria-required="true"/> --}}
                         @if ($errors->has('total_demand'))
                           <span id="total_demand-error" class="error text-danger" for="input-total_demand">{{ $errors->first('total_demand') }}</span>
                         @endif
@@ -207,7 +206,7 @@
                   </script>
 
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary" id="send_button">{{ __('Adicionar') }}</button>
+                <button type="submit" class="btn btn-primary" id="send_button">{{ __('Salvar') }}</button>
               </div>
 
               <script>
@@ -262,11 +261,10 @@
               success: function(response){
                 if (response.success) {
                   // $('.messageBox').removeClass('loading')
-                  // window.location.href = "{{route('demand.index')}}"
-                  console.log(response.message)
+                  window.location.href = "{{route('demand.index')}}"
                   
                 } else {
-                  console.log('errou')
+                  console.log('Erro')
                   
                   // $('.messageBox').removeClass('loading')
                   // $('.messageBox').removeClass('d-none').html(response.message)

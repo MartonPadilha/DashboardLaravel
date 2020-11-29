@@ -95,24 +95,13 @@ class DemandController extends Controller
 
     public function update(Request $request, Demand $demand)
     {
-        // if ($request->name == '') {
-        //     $demand->status = "Entregue";
-        //     $demand->delivered_at = date('Y-m-d H:i:s');
-        //     $demand->save();
+        if ($request->client == '') {
+            $demand->status = "Entregue";
+            $demand->delivered_at = date('Y-m-d H:i:s');
+            $demand->save();
     
-        //     return redirect()->route('demand.index')->withStatus("Pedido entregue com sucesso!");
-        // } else {
-            // $demand->name = $request->name;
-            // $demand->slug = $demand->name;
-            // $demand->time_take = $request->time;
-            // $demand->date = $request->date;
-            // $demand->product = $request->product;
-            // $demand->quantity = $request->quantity;
-            // $demand->value = $request->value;
-            // $demand->status = "Aguardando";
-            // $demand->save();
-    
-            // redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
+            return redirect()->route('demand.index')->with('create', 'Pedido ID '. $demand->id .' para '. $demand->clients->name .' entregue!');
+        } else {
             $clients = Client::all();
             foreach($clients as $client){
                 if ($client['name'] == $request->client ) {
@@ -126,25 +115,24 @@ class DemandController extends Controller
             $demand->value = $request->value;
             $demand->status = "Aguardando";
             $demand->save();
-            // redirect()->route('demand.index')->withStatus("Pedido editado com sucesso!");
-                    
+            
             $demand->products()->wherePivot('id_demand', '=', $demand->id)->detach();
             foreach($request->list as $product){
                 for($i = 0; $i < $product['quantity']; $i++){
                     $demand->products()->attach($product['product']);
-                    }
                 }
-
+            }
+            
+            redirect()->route('demand.index')->with('edit', 'Pedido ID '. $demand->id .' para '. $demand->clients->name .' editado!');
             $suc['success'] = true;
-            $suc['message'] = 'teste';
             echo json_encode($suc);
             return;
-        // }
+        }
     }
 
     public function destroy(Demand $demand)
     {
         $demand->delete();
-        return redirect()->route('demand.index')->withStatus("Pedido excluído com sucesso!");
+        return redirect()->route('demand.index')->with('delete', 'Pedido ID '. $demand->id .' para '. $demand->clients->name .' excluido!');
     }
 }
