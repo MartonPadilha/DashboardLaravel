@@ -115,6 +115,15 @@
                         <span id="description-error" class="error text-danger" for="input-description">{{ $errors->first('description') }}</span>
                       @endif
                     </div>
+
+                    <div class="form-group{{ $errors->has('image') ? ' has-danger' : '' }}">
+                      <label for="input-image">Imagem</label>
+                    <input class="form-control{{ $errors->has('image') ? ' Nome Inválido!' : '' }}" name="image" id="input-image" type="text" required="true" aria-required="true" value="{{$product->image}}"/>
+                      @if ($errors->has('image'))
+                      <span id="name-error" class="error text-danger" for="input-image">{{ $errors->first('image') }}</span>
+                      @endif
+                    </div>
+                    <label for="input-image">*Adicione a url da imagem - Imagem usada no dashboard</label>
                   </div>
                 </div>
 

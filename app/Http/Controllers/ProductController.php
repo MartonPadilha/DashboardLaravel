@@ -39,6 +39,7 @@ class ProductController extends Controller
         $product->id_category = $request->category;
         $product->quantity = $request->quantity;
         $product->id_um = $request->um;
+        $product->image = $request->image;
         $product->save();
 
         return redirect()->route('product.index')->with('create', 'Produto '. $product->name .' criado!');
@@ -69,6 +70,8 @@ class ProductController extends Controller
         $product->id_category = $request->category;
         $product->quantity = $request->quantity;
         $product->id_um = $request->um;
+        $product->image = $request->image;
+
         $product->save();
 
         return redirect()->route('product.index')->with('edit', 'Produto '. $product->name .' editado!');
