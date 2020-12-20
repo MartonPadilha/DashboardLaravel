@@ -3,7 +3,7 @@
 @section('content')
   <div class="content">
     <div class="container-fluid bi">
-        <iframe width="933" height="700" src="https://app.powerbi.com/view?r=eyJrIjoiOWY3ZTg4NTQtY2U2NC00ZjZjLWJiNmEtZDVjYTg3NmQzNjU4IiwidCI6IjBiM2U3MTBhLTNhN2UtNGY4NC1iZGJlLWVmZmFmMTlkMTliMyJ9" frameborder="0" allowFullScreen="true"></iframe>
+        <iframe width="933" height="700" src="https://app.powerbi.com/view?r=eyJrIjoiOWY3ZTg4NTQtY2U2NC00ZjZjLWJiNmEtZDVjYTg3NmQzNjU4IiwidCI6IjBiM2U3MTBhLTNhN2UtNGY4NC1iZGJlLWVmZmFmMTlkMTliMyJ9&pageName=ReportSection" frameborder="0" allowFullScreen="true"></iframe>
     </div>
   </div>
 
